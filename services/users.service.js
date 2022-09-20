@@ -20,14 +20,15 @@ class UserService{
         password: faker.internet.password(),
         first_name: faker.name.firstName(),
         first_last_name: faker.name.lastName(),
-        second_last_name_m: faker.name.lastName(),
+        second_last_name: faker.name.lastName(),
         institutional_email: faker.internet.email(),
-        career_especialty: faker.internet.url(),
+        career_especialty: faker.name.jobArea(),
         current_semester: faker.datatype.number({
           'min': 1,
           'max': 10
       }),
-        ProfileImage: faker.image.image()
+        profileImage: faker.image.image(),
+        isActive: faker.datatype.boolean()
      });
 
     }
@@ -42,28 +43,33 @@ class UserService{
     return newUser;
   }
 
-  async update(id, changes){
+  update(id, changes){
     const nId = parseInt(id);
     const index = this.users.findIndex((item) => item.id === nId);
-    var currentUser = this.users[index];
-    if(!currentUser)
-      throw new Error('User not found: ' + nId);
+    if(index === -1)
+      throw new boom.notFound('User not found: ' + nId);
 
+    var currentUser = this.users[index];
     this.users[index] = {
       ...currentUser,
       ...changes,
     };
-    return this.users[index];
+    return {
+      old: currentUser,
+      changed: this.users[index]
+    }
   }
 
-  async delete(){
+   delete(id){
     const nId = parseInt(id);
     const index = this.users.findIndex((item) => item.id === nId);
-    var currentUser = this.users[index];
-    if(!currentUser)
-      throw boom.notFound('User not found');
+    if(index === -1)
+      throw new boom.notFound('User not found: ' + nId);
 
-    this.products.splice(index, 1);
+    var currentUser = this.users[index];
+    this.users.splice(index, 1);
+
+    return currentUser;
 
   }
 
@@ -74,14 +80,14 @@ class UserService{
     else if(users.length <= 0)
       throw boom.notFound('There are no users registered');
 
-    return ;
+    return users;
   }
 
   getById(id){
     const nId = parseInt(id);
     const user = this.users.find((item) => item && item.id === nId);
     if(!user)
-      throw boom.notFound('User not found');
+      throw new boom.notFound('User not found: ' + nId);
     return user;
   }
 

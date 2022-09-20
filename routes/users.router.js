@@ -1,6 +1,9 @@
 const express = require('express');
 const UserService = require('../services/users.service');
 const service = new UserService();
+const validatorHandler = require('../middlewares/validator.handler')
+const {createUserDto, updateUserDto, getUserDto} = require('../DTOs/users.dto')
+
 const router = express.Router();
 
 //RUTAS GENERALES /
@@ -23,7 +26,7 @@ router.get('/', (req, res, next) => {
 
 
 //CREATE USER
-router.post('/', (req, res) => {
+router.post('/', validatorHandler(createUserDto, 'body'), (req, res) => {
   const body = req.body;
   const user = service.create(body); //Para updates y creates
   res.json({
@@ -36,7 +39,7 @@ router.post('/', (req, res) => {
 //RUTAS ESPECIFICAS /:id
 
 //GET USER BY ID
-router.get('/:id', (req, res, next) => {
+router.get('/:id', validatorHandler(getUserDto, 'params'), (req, res, next) => {
   try {
     const {id} = req.params; //Obtener ids
     const user = service.getById(id);
@@ -52,25 +55,32 @@ router.get('/:id', (req, res, next) => {
 });
 
 //PARTIALLY UPDATE USER
-router.patch('/:id', (req, res) => {
-  const body = req.body;
-  const {id} = req.params; //Obtener ids
-  const user = service.update(id, body);
-  res.json({
+router.patch('/:id', validatorHandler(getUserDto, 'params'), validatorHandler(updateUserDto, 'body'), (req, res, next) => {
+  try {
+    const {id} = req.params; //Obtener ids
+    const body = req.body;
+    const {old, changed} = service.update(id, body);
+    res.json({
       'success':true,
       'message':'User updated successfully',
-      'Data': user
-  });
+      'Original': old,
+      'Updated': changed
+     });
+  } catch (error) {
+    next(error);
+  }
+
 });
 
 //DELETE USER
 router.delete('/:id', (req, res, next) => {
   try {
     const {id} = req.params; //Obtener ids
-    service.delete(id);
+    deletedUser = service.delete(id);
     res.json({
       'success':true,
-      'message':'User ' + id +' eliminated successfully'
+      'message':'User eliminated successfully',
+      'user': deletedUser
   });
   } catch (error) {
     next(error);
