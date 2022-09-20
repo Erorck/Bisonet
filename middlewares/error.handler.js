@@ -5,6 +5,15 @@ const logErrors = (err, req, res, next) => {
   next(err);
 }
 
+//Handler for server error
+const errorHandler = (err, req, res) => {
+  console.log(res);
+  res.status(500).json({
+    message: err.message,
+    stack: err.stack,
+  });
+};
+
 //Handler for boom type errors
 const boomErrorHandler = (err, req, res, next) => {
   if (err.isBoom) {
@@ -14,14 +23,6 @@ const boomErrorHandler = (err, req, res, next) => {
   next(err);
 };
 
-//Handler for server error
-const errorHandler = (err, req, res) => {
-  console.log(res);
-  res.status(500).json({
-    message: err.message,
-    stack: err.stack,
-  });
-};
 
 
 

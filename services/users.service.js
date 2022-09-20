@@ -10,7 +10,7 @@ class UserService{
   }
 
   generate(){
-    const limit = 100;
+    const limit = 15;
     for (let index = 0; index <limit; index++) {
      this.users.push({
         id: faker.datatype.number({
@@ -28,6 +28,7 @@ class UserService{
           'max': 10
       }),
         profileImage: faker.image.image(),
+        user_type: faker.name.jobDescriptor(),
         isActive: faker.datatype.boolean()
      });
 
@@ -36,7 +37,10 @@ class UserService{
 
   create(data){
     const newUser = {
-      id: faker.datatype.uuid(),
+      id: faker.datatype.number({
+        'min': 1500000,
+        'max': 2500000
+    }),
       ...data //MEZCLAR EL ID CON TODO LO DE DATA
     }
     this.users.push(newUser);

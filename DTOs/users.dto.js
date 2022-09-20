@@ -13,6 +13,7 @@ const institutional_email = Joi.string().pattern(Utilities.REGEX_VALD_EMAIL.patt
 const career_especialty = Joi.string();
 const current_semester = Joi.number().min(1).max(10);
 const profileImage = Joi.string();
+const user_type = Joi.string().pattern(Utilities.REGEX_VALD_NAME.pattern, Utilities.REGEX_VALD_NAME.name);
 const isActive = Joi.boolean();
 
 const createUserDto = Joi.object({
@@ -25,6 +26,7 @@ const createUserDto = Joi.object({
   career_especialty: career_especialty.required(),
   current_semester: current_semester.required(),
   profileImage: profileImage,
+  user_type: user_type.required(),
   isActive: isActive.required()
 });
 
@@ -37,6 +39,7 @@ const updateUserDto = Joi.object({
   career_especialty: career_especialty,
   current_semester: current_semester,
   profileImage: profileImage,
+  user_type:user_type,
   isActive: isActive
 });
 
