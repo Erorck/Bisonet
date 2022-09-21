@@ -33,10 +33,7 @@ class CoursesService{
 
   create(data){
     const newCourses = {
-      courseId: faker.datatype.number({
-        'min': 1,
-        'max': 2500
-    }),
+      courseId: faker.datatype.uuid(),
       ...data //MEZCLAR EL ID CON TODO LO DE DATA
     }
     this.courses.push(newCourses);

@@ -12,11 +12,9 @@ const groups = Joi.string();
 const isActive = Joi.boolean();
 
 const createCourseDto = Joi.object({
-  courseId: courseId.required(),
   course_name: course_name.required(),
   career_especialty: career_especialty.required(),
   semester: semester.required(),
-  groups: groups,
   isActive: isActive.required()
 });
 

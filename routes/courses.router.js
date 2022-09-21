@@ -2,7 +2,7 @@ const express = require('express');
 const CoursesService = require('../services/courses.service');
 const service = new CoursesService();
 const validatorHandler = require('../middlewares/validator.handler')
-const {createCourseDto, updateCourseDto, getCourseDto} = require('../DTOs/course.dto')
+const {createCourseDto, updateCourseDto, getCourseDto} = require('../DTOs/courses.dto')
 
 const router = express.Router();
 
