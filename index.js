@@ -1,18 +1,19 @@
+require('dotenv').config();
 const express = require('express');
+const routerApi = require('./routes')
+const cors = require('cors');
+const {logErrors, boomErrorHandler, errorHandler} = require('./middlewares/error.handler')
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-    res.json({
-        'success':true,
-        'message':'Hola mundo',
-        'Data': {
-            "name": 'Felipe',
-            "age": 3
-        }
-    });
-});
+app.use(cors());
+app.use(express.json()) //Definir json como formato de datos
+routerApi(app); //Rutas de nuestras entidades
+//Middlewares - Manejo de errores y validaciones
+app.use(logErrors);
+app.use(boomErrorHandler);
+app.use(errorHandler);
 
 app.listen(port, ()=>{
     console.log('Este es mi puerto ' + port);
