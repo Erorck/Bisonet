@@ -2,24 +2,24 @@ const Joi = require('joi');
 require('dotenv').config();
 
 const uuidSection = Joi.string();
-const seccion = Joi.string();
-const orden = Joi.number().min(1).max(10);
+const sectionName = Joi.string();
+const order = Joi.number().min(1).max(10);
 const active = Joi.boolean();
 
 const createSectionDto = Joi.object({
-    seccion: seccion.required(),
-    orden: orden.required(),
+    sectionName: sectionName.required(),
+    order: order.required(),
     active: active.required()
 });
 
 const updateSectionDto = Joi.object({
-    seccion: seccion,
-    orden: orden,
+    sectionName: sectionName,
+    order: order,
     active: active.required()
   });
 
   const getSectionDto = Joi.object({
-    uuid: uuidSection.required()
+    sectionId: uuidSection.required()
   });
 
   module.exports = {

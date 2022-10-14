@@ -20,10 +20,10 @@ router.get('/get/post', async (req, res, next) =>{
       }
 });
 
-router.get('/get/post/:uuid', validatorHandler(getPostDto, 'params'), (req, res, next) =>{
+router.get('/get/post/:postId', validatorHandler(getPostDto, 'params'), (req, res, next) =>{
     try {
-        const {uuid} = req.params; //Obtener ids
-        const post = service.getById(uuid);
+        const {postId} = req.params; //Obtener ids
+        const post = service.getById(postId);
         res.json({
             'success':true,
             'message':'post found successfully',
@@ -48,11 +48,11 @@ router.post('/create/post/', validatorHandler(createPostDto, 'body'), (req, res)
       }
 });
 
-router.patch('/update/post/:uuid',  validatorHandler(getPostDto, 'params'), validatorHandler(updatePostDto, 'body'), (req, res, next) =>{
+router.patch('/update/post/:postId',  validatorHandler(getPostDto, 'params'), validatorHandler(updatePostDto, 'body'), (req, res, next) =>{
     try {
-        const {uuid} = req.params; //Obtener ids
+        const {postId} = req.params; //Obtener ids
         const body = req.body;
-        const {old, changed} = service.update(uuid, body);
+        const {old, changed} = service.update(postId, body);
         res.json({
           'success':true,
           'message':'post updated successfully',
@@ -64,10 +64,10 @@ router.patch('/update/post/:uuid',  validatorHandler(getPostDto, 'params'), vali
       }
 });
 
-router.delete('/delete/post/:uuid', async (req, res, next) =>{
+router.delete('/delete/post/:postId', async (req, res, next) =>{
     try {
-        const {uuid} = req.params; //Obtener ids
-        post = service.delete(uuid);
+        const {postId} = req.params; //Obtener ids
+        post = service.delete(postId);
         res.json({
           'success':true,
           'message':'post eliminated successfully',

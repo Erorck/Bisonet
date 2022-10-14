@@ -3,25 +3,25 @@ require('dotenv').config();
 
 const uuidPhoto = Joi.string();
 const foto = Joi.string();
-const fecha = Joi.date();
+const upload_date = Joi.date();
 const id_post = Joi.string();
 const active = Joi.boolean();
 
 const createPhotoDto = Joi.object({
     foto: foto.required(),
-    fecha: fecha.required(),
+    upload_date: upload_date.required(),
     id_post: id_post.required(),
     active: active.required()
 });
 
 const updatePhotoDto = Joi.object({
     foto: foto,
-    fecha: fecha.required(),
+    upload_date: upload_date.required(),
     active: active.required()
   });
 
   const getPhotoDto = Joi.object({
-    uuid: uuidPhoto.required()
+    photoId: uuidPhoto.required()
   });
 
   module.exports = {

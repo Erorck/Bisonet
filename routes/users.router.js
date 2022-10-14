@@ -36,13 +36,13 @@ router.post('/', validatorHandler(createUserDto, 'body'), (req, res) => {
   });
 });
 
-//RUTAS ESPECIFICAS /:id
+//RUTAS ESPECIFICAS /:userId
 
 //GET USER BY ID
-router.get('/:id', validatorHandler(getUserDto, 'params'), (req, res, next) => {
+router.get('/:userId', validatorHandler(getUserDto, 'params'), (req, res, next) => {
   try {
-    const {id} = req.params; //Obtener ids
-    const user = service.getById(id);
+    const {userId} = req.params; //Obtener ids
+    const user = service.getById(userId);
     res.json({
         'success':true,
         'message':'User found successfully',
@@ -55,11 +55,11 @@ router.get('/:id', validatorHandler(getUserDto, 'params'), (req, res, next) => {
 });
 
 //PARTIALLY UPDATE USER
-router.patch('/:id', validatorHandler(getUserDto, 'params'), validatorHandler(updateUserDto, 'body'), (req, res, next) => {
+router.patch('/:userId', validatorHandler(getUserDto, 'params'), validatorHandler(updateUserDto, 'body'), (req, res, next) => {
   try {
-    const {id} = req.params; //Obtener ids
+    const {userId} = req.params; //Obtener ids
     const body = req.body;
-    const {old, changed} = service.update(id, body);
+    const {old, changed} = service.update(userId, body);
     res.json({
       'success':true,
       'message':'User updated successfully',
@@ -73,10 +73,10 @@ router.patch('/:id', validatorHandler(getUserDto, 'params'), validatorHandler(up
 });
 
 //DELETE USER
-router.delete('/:id', (req, res, next) => {
+router.delete('/:userId', (req, res, next) => {
   try {
-    const {id} = req.params; //Obtener ids
-    deletedUser = service.delete(id);
+    const {userId} = req.params; //Obtener ids
+    deletedUser = service.delete(userId);
     res.json({
       'success':true,
       'message':'User eliminated successfully',

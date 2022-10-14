@@ -20,10 +20,10 @@ router.get('/get/photos', async (req, res, next) =>{
       }
 });
 
-router.get('/get/photos/:uuid', validatorHandler(getPhotoDto, 'params'), (req, res, next) =>{
+router.get('/get/photos/:photoId', validatorHandler(getPhotoDto, 'params'), (req, res, next) =>{
     try {
-        const {uuid} = req.params; //Obtener ids
-        const photos = service.getById(uuid);
+        const {photoId} = req.params; //Obtener ids
+        const photos = service.getById(photoId);
         res.json({
             'success':true,
             'message':'photos found successfully',
@@ -48,11 +48,11 @@ router.post('/create/photos/', validatorHandler(createPhotoDto, 'body'), (req, r
       }
 });
 
-router.patch('/update/photos/:uuid',  validatorHandler(getPhotoDto, 'params'), validatorHandler(updatePhotoDto, 'body'), (req, res, next) =>{
+router.patch('/update/photos/:photoId',  validatorHandler(getPhotoDto, 'params'), validatorHandler(updatePhotoDto, 'body'), (req, res, next) =>{
     try {
-        const {uuid} = req.params; //Obtener ids
+        const {photoId} = req.params; //Obtener ids
         const body = req.body;
-        const {old, changed} = service.update(uuid, body);
+        const {old, changed} = service.update(photoId, body);
         res.json({
           'success':true,
           'message':'photos updated successfully',
@@ -64,10 +64,10 @@ router.patch('/update/photos/:uuid',  validatorHandler(getPhotoDto, 'params'), v
       }
 });
 
-router.delete('/delete/photos/:uuid', async (req, res, next) =>{
+router.delete('/delete/photos/:photoId', async (req, res, next) =>{
     try {
-        const {uuid} = req.params; //Obtener ids
-        photos = service.delete(uuid);
+        const {photoId} = req.params; //Obtener ids
+        photos = service.delete(photoId);
         res.json({
           'success':true,
           'message':'photos eliminated successfully',

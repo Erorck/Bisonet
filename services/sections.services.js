@@ -13,9 +13,9 @@ class sectionService{
     const limit = 10;
     for (let index = 0; index < limit; index++) {
         this.sections.push({
-            uuid : faker.datatype.uuid(),
-            seccion : faker.lorem.text(),
-            orden : faker.datatype.number({'min' : 0, 'max' : 10}),
+            sectionId : faker.datatype.uuid(),
+            sectionName : faker.name.jobArea(),
+            order : faker.datatype.number({'min' : 0, 'max' : 10}),
             active : faker.datatype.boolean()
         });
     }
@@ -23,7 +23,7 @@ class sectionService{
 
   create(data){
     const newSections = {
-        uuid: faker.datatype.uuid(),
+      sectionId: faker.datatype.uuid(),
       ...data //MEZCLAR EL ID CON TODO LO DE DATA
     }
     this.sections.push(newSections);
@@ -32,7 +32,7 @@ class sectionService{
 
   update(id, changes){
     //const nId = parseInt(id);
-    const index = this.sections.findIndex((item) => item.uuid === id);
+    const index = this.sections.findIndex((item) => item.sectionId === id);
     if(index === -1)
       throw new boom.notFound('Section not found: ' + id);
 
@@ -49,7 +49,7 @@ class sectionService{
 
    delete(id){
     //const nId = sections(id);
-    const index = this.sections.findIndex((item) => item.uuid === id);
+    const index = this.sections.findIndex((item) => item.sectionId === id);
     if(index === -1)
       throw new boom.notFound('Section not found: ' + id);
 
@@ -72,7 +72,7 @@ class sectionService{
 
   getById(id){
     //const nId = parseInt(id);
-    const sections = this.sections.find((item) => item && item.uuid === id);
+    const sections = this.sections.find((item) => item && item.sectionId === id);
     if(!sections)
       throw new boom.notFound('Section not found: ' + id);
     return sections;

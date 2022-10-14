@@ -13,7 +13,7 @@ class UserService{
     const limit = 15;
     for (let index = 0; index <limit; index++) {
      this.users.push({
-        id: faker.datatype.number({
+        userId: faker.datatype.number({
           'min': 1500000,
           'max': 2500000
       }),
@@ -37,7 +37,7 @@ class UserService{
 
   create(data){
     const newUser = {
-      id: faker.datatype.number({
+      userId: faker.datatype.number({
         'min': 1500000,
         'max': 2500000
     }),
@@ -47,9 +47,9 @@ class UserService{
     return newUser;
   }
 
-  update(id, changes){
-    const nId = parseInt(id);
-    const index = this.users.findIndex((item) => item.id === nId);
+  update(userId, changes){
+    const nId = parseInt(userId);
+    const index = this.users.findIndex((item) => item.userId === nId);
     if(index === -1)
       throw new boom.notFound('User not found: ' + nId);
 
@@ -64,9 +64,9 @@ class UserService{
     }
   }
 
-   delete(id){
-    const nId = parseInt(id);
-    const index = this.users.findIndex((item) => item.id === nId);
+   delete(userId){
+    const nId = parseInt(userId);
+    const index = this.users.findIndex((item) => item.userId === nId);
     if(index === -1)
       throw new boom.notFound('User not found: ' + nId);
 
@@ -87,9 +87,9 @@ class UserService{
     return users;
   }
 
-  getById(id){
-    const nId = parseInt(id);
-    const user = this.users.find((item) => item && item.id === nId);
+  getById(userId){
+    const nId = parseInt(userId);
+    const user = this.users.find((item) => item && item.userId === nId);
     if(!user)
       throw new boom.notFound('User not found: ' + nId);
     return user;

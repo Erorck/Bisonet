@@ -20,10 +20,10 @@ router.get('/get/videos', async (req, res, next) =>{
       }
 });
 
-router.get('/get/videos/:uuid', validatorHandler(getVideoDto, 'params'), (req, res, next) =>{
+router.get('/get/videos/:idVideo', validatorHandler(getVideoDto, 'params'), (req, res, next) =>{
     try {
-        const {uuid} = req.params; //Obtener ids
-        const videos = service.getById(uuid);
+        const {idVideo} = req.params; //Obtener ids
+        const videos = service.getById(idVideo);
         res.json({
             'success':true,
             'message':'videos found successfully',
@@ -48,11 +48,11 @@ router.post('/create/videos/', validatorHandler(createVideoDto, 'body'), (req, r
       }
 });
 
-router.patch('/update/videos/:uuid', validatorHandler(getVideoDto, 'params'), validatorHandler(updateVideoDto, 'body'), (req, res, next) =>{
+router.patch('/update/videos/:idVideo', validatorHandler(getVideoDto, 'params'), validatorHandler(updateVideoDto, 'body'), (req, res, next) =>{
     try {
-        const {uuid} = req.params; //Obtener ids
+        const {idVideo} = req.params; //Obtener ids
         const body = req.body;
-        const {old, changed} = service.update(uuid, body);
+        const {old, changed} = service.update(idVideo, body);
         res.json({
           'success':true,
           'message':'videos updated successfully',
@@ -64,10 +64,10 @@ router.patch('/update/videos/:uuid', validatorHandler(getVideoDto, 'params'), va
       }
 });
 
-router.delete('/delete/videos/:uuid', async (req, res, next) =>{
+router.delete('/delete/videos/:idVideo', async (req, res, next) =>{
     try {
-        const {uuid} = req.params; //Obtener ids
-        videos = service.delete(uuid);
+        const {idVideo} = req.params; //Obtener ids
+        videos = service.delete(idVideo);
         res.json({
           'success':true,
           'message':'photos eliminated successfully',

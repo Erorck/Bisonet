@@ -20,10 +20,10 @@ router.get('/get/section', async (req, res, next) =>{
       }
 });
 
-router.get('/get/section/:uuid', validatorHandler(getSectionDto, 'params'), (req, res, next) =>{
+router.get('/get/section/:sectionId', validatorHandler(getSectionDto, 'params'), (req, res, next) =>{
     try {
-        const {uuid} = req.params; //Obtener ids
-        const section = Service.getById(uuid);
+        const {sectionId} = req.params; //Obtener ids
+        const section = Service.getById(sectionId);
         res.json({
             'success':true,
             'message':'Section found successfully',
@@ -48,11 +48,11 @@ router.post('/create/section', validatorHandler(createSectionDto, 'body'), (req,
       }
 });
 
-router.patch('/update/section/:uuid', validatorHandler(getSectionDto, 'params'), validatorHandler(updateSectionDto, 'body'), (req, res, next) =>{
+router.patch('/update/section/:sectionId', validatorHandler(getSectionDto, 'params'), validatorHandler(updateSectionDto, 'body'), (req, res, next) =>{
     try {
-        const {uuid} = req.params; //Obtener ids
+        const {sectionId} = req.params; //Obtener ids
         const body = req.body;
-        const {old, changed} = Service.update(uuid, body);
+        const {old, changed} = Service.update(sectionId, body);
         res.json({
           'success':true,
           'message':'Section updated successfully',
@@ -64,10 +64,10 @@ router.patch('/update/section/:uuid', validatorHandler(getSectionDto, 'params'),
       }
 });
 
-router.delete('/delete/section/:uuid', async (req, res, next) =>{
+router.delete('/delete/section/:sectionId', async (req, res, next) =>{
     try {
-        const {uuid} = req.params; //Obtener ids
-        deletedSection = Service.delete(uuid);
+        const {sectionId} = req.params; //Obtener ids
+        deletedSection = Service.delete(sectionId);
         res.json({
           'success':true,
           'message':'Section eliminated successfully',

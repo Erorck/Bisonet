@@ -13,10 +13,14 @@ class postService{
     const limit = 10;
     for (let index = 0; index <limit; index++) {
      this.post.push({
-        uuid : faker.datatype.uuid(),
-        texto : faker.lorem.text(),
-        fecha : faker.date.past(),
+        postId : faker.datatype.uuid(),
         autor : faker.datatype.uuid(),
+        section : faker.datatype.uuid(),
+        post_type: faker.name.jobArea(),
+        title : faker.lorem.sentence(),
+        content : faker.lorem.text(),
+        publication_date : faker.date.past(),
+        modification_date : faker.date.past(),
         active : faker.datatype.boolean()
      });
 
@@ -25,7 +29,7 @@ class postService{
 
   create(data){
     const newpost = {
-      uuid: faker.datatype.uuid(),
+      postId: faker.datatype.uuid(),
       ...data //MEZCLAR EL ID CON TODO LO DE DATA
     }
     this.post.push(newpost);
@@ -34,7 +38,7 @@ class postService{
 
   update(id, changes){
     //const nId = parseInt(id);
-    const index = this.post.findIndex((item) => item.uuid === id);
+    const index = this.post.findIndex((item) => item.postId === id);
     if(index === -1)
       throw new boom.notFound('post not found: ' + id);
 
@@ -51,7 +55,7 @@ class postService{
 
    delete(id){
     //const nId = parseInt(id);
-    const index = this.post.findIndex((item) => item.uuid === id);
+    const index = this.post.findIndex((item) => item.postId === id);
     if(index === -1)
       throw new boom.notFound('post not found: ' + id);
 
@@ -74,7 +78,7 @@ class postService{
 
   getById(id){
     //const nId = parseInt(id);
-    const post = this.post.find((item) => item && item.uuid === id);
+    const post = this.post.find((item) => item && item.postId === id);
     if(!post)
       throw new boom.notFound('post not found: ' + id);
     return post;

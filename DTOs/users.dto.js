@@ -17,7 +17,7 @@ const user_type = Joi.string().pattern(Utilities.REGEX_VALD_NAME.pattern, Utilit
 const isActive = Joi.boolean();
 
 const createUserDto = Joi.object({
-  id: userId.required(),
+  userId: userId.required(),
   password: passwordPattern.required(),
   first_name: first_name.required(),
   first_last_name: first_last_name.required(),
@@ -44,7 +44,7 @@ const updateUserDto = Joi.object({
 });
 
 const getUserDto = Joi.object({
-  id: userId.required()
+  userId: userId.required()
 });
 
 module.exports = {

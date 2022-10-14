@@ -13,9 +13,9 @@ class PhotosService{
     const limit = 10;
     for (let index = 0; index <limit; index++) {
      this.photos.push({
-        uuid : faker.datatype.uuid(),
+        photoId : faker.datatype.uuid(),
         foto : faker.image.image(),
-        fecha : faker.date.past(),
+        upload_date : faker.date.past(),
         id_post : faker.datatype.uuid(),
         active : faker.datatype.boolean()
      });
@@ -25,7 +25,7 @@ class PhotosService{
 
   create(data){
     const newphotos = {
-      uuid: faker.datatype.uuid(),
+      photoId: faker.datatype.uuid(),
       ...data //MEZCLAR EL ID CON TODO LO DE DATA
     }
     this.photos.push(newphotos);
@@ -34,7 +34,7 @@ class PhotosService{
 
   update(id, changes){
     //const nId = parseInt(id);
-    const index = this.photos.findIndex((item) => item.uuid === id);
+    const index = this.photos.findIndex((item) => item.photoId === id);
     if(index === -1)
       throw new boom.notFound('Photos not found: ' + id);
 
@@ -51,7 +51,7 @@ class PhotosService{
 
    delete(id){
     //const nId = parseInt(id);
-    const index = this.photos.findIndex((item) => item.uuid === id);
+    const index = this.photos.findIndex((item) => item.photoId === id);
     if(index === -1)
       throw new boom.notFound('photos not found: ' + id);
 
@@ -74,7 +74,7 @@ class PhotosService{
 
   getById(id){
     //const nId = parseInt(id);
-    const photos = this.photos.find((item) => item && item.uuid === id);
+    const photos = this.photos.find((item) => item && item.photoId === id);
     if(!photos)
       throw new boom.notFound('photos not found: ' + id);
     return photos;
