@@ -10,7 +10,15 @@ const Utilities = {
    REGEX_VALD_NAME: {
     pattern: /^[a-zA-ZÀ-ÿ\s]{1,40}$/,
     name: 'valid_name'
-  }
+  },
+  REGEX_VALD_OBJECT_ID: {
+    pattern: /^[a-zA-Z0-9]{24}$/,
+    name: 'valid_object_id'
+  },
+
+  NOT_FOUND_COLL_MSG: 'Collection doesn\'t exists',
+  NO_USERS_REGISTERED_MSG: 'There are no users registered',
+  USER_NOT_FOUND_MSG: 'User not found: '
 };
 
 module.exports = {

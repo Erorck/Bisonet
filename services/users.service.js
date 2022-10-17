@@ -2,6 +2,7 @@ const faker = require('faker');
 const boom = require('@hapi/boom');
 const UserModel = require('../models/users.model');
 
+
 const NOT_FOUND_COLL_MSG = 'Collection doesn\'t exists';
 const NO_USERS_REGISTERED_MSG = 'There are no users registered';
 const USER_NOT_FOUND_MSG = 'User not found: ';
@@ -16,20 +17,6 @@ class UserService{
   //-------------DB METHODS----------------//
   //#region DB METHODS
 
-  //GET ALL USERS DB
-  async getAll(limit, filter){
-    let users = await UserModel.find(filter);
-
-    if(!users)
-      throw boom.notFound(NOT_FOUND_COLL_MSG);
-    else if(users.length <= 0)
-      throw boom.notFound(NO_USERS_REGISTERED_MSG);
-
-    users = limit ? users.filter((item, index) => item && index < limit) : users;
-
-    return users;
-  }
-
    //CREATE DB USER
    async create(data){
     const newUser = new UserModel(data);
@@ -39,6 +26,12 @@ class UserService{
 
   //UPDATE DB USER
   async update(userId, changes){
+
+    // var objectIdRegex = new RegExp(Utilities.REGEX_VALD_OBJECT_ID.pattern);
+
+    // if(!objectIdRegex.test())
+    //   throw new boom.badRequest('Id con formato incorrecto');
+
     let user = await UserModel.findOne({
       _id: userId
     });
@@ -49,7 +42,7 @@ class UserService{
     let oldUser = {
         userId: user.userId,
 				password: user.password,
-        first_name: user.firstName,
+        first_name: user.first_name,
         first_last_name: user.first_last_name,
         second_last_name: user.second_last_name,
         institutional_email: user.institutional_email,
@@ -62,7 +55,7 @@ class UserService{
 
     const {password, first_name, first_last_name, second_last_name, institutional_email, career_especialty, current_semester, profileImage, user_type, isActive} = changes;
     user.password = password || user.password;
-    user.firstName = first_name || user.firstName;
+    user.first_name = first_name || user.first_name;
     user.first_last_name = first_last_name || user.first_last_name;
     user.second_last_name = second_last_name || user.second_last_name;
     user.institutional_email = institutional_email || user.institutional_email;
@@ -94,6 +87,20 @@ class UserService{
       throw new boom.notFound(USER_NOT_FOUND_MSG + userId);
 
     return user;
+  }
+
+  //GET ALL USERS DB
+  async getAll(limit, filter){
+    let users = await UserModel.find(filter);
+
+    if(!users)
+      throw boom.notFound(NOT_FOUND_COLL_MSG);
+    else if(users.length <= 0)
+      throw boom.notFound(NO_USERS_REGISTERED_MSG);
+
+    users = limit ? users.filter((item, index) => item && index < limit) : users;
+
+    return users;
   }
 
   //GET DB USER BY ID

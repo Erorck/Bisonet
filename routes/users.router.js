@@ -27,14 +27,19 @@ router.get('/', async (req, res, next) => {
 
 
 //CREATE USER
-router.post('/', validatorHandler(createUserDto, 'body'), async (req, res) => {
-  const body = req.body;
-  const user = await service.create(body); //Para updates y creates
-  res.json({
-      'success':true, //Validaciones FrontEnd
-      'message':'User created successfully', //Mostrar al usuario
-      'Data': user //Desplegar información en algún formato
-  });
+router.post('/', validatorHandler(createUserDto, 'body'), async (req, res, next) => {
+  try {
+    const body = req.body;
+    const user = await service.create(body); //Para updates y creates
+    res.json({
+        'success':true, //Validaciones FrontEnd
+        'message':'User created successfully', //Mostrar al usuario
+        'Data': user //Desplegar información en algún formato
+    });
+  } catch (error) {
+    next(error);
+  }
+
 });
 
 //RUTAS ESPECIFICAS /:userId

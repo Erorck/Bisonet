@@ -9,10 +9,11 @@ const router = express.Router();
 //RUTAS GENERALES /
 
 //GET ALL COURSES
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const{size} = req.query;
-    const courses = service.getAll(size || 10);
+    const filter = req.body;
+    const courses = await service.getAll(size || 10, filter);
     res.json({
       'success':true,
       'message':'courses found successfully',
@@ -26,10 +27,10 @@ router.get('/', (req, res, next) => {
 
 
 //CREATE COURSE
-router.post('/', validatorHandler(createCourseDto, 'body'), (req, res) => {
+router.post('/', validatorHandler(createCourseDto, 'body'), async (req, res, next) => {
   try {
     const body = req.body;
-    const course = service.create(body); //Para updates y creates
+    const course = await service.create(body); //Para updates y creates
     res.json({
       'success':true, //Validaciones FrontEnd
       'message':'Course created successfully', //Mostrar al usuario
@@ -44,10 +45,10 @@ router.post('/', validatorHandler(createCourseDto, 'body'), (req, res) => {
 //RUTAS ESPECIFICAS /:id
 
 //GET COURSE BY ID
-router.get('/:courseId', validatorHandler(getCourseDto, 'params'), (req, res, next) => {
+router.get('/:courseId', validatorHandler(getCourseDto, 'params'), async (req, res, next) => {
   try {
     const {courseId} = req.params; //Obtener ids
-    const course = service.getById(courseId);
+    const course = await service.getById(courseId);
     res.json({
         'success':true,
         'message':'Course found successfully',
@@ -60,11 +61,11 @@ router.get('/:courseId', validatorHandler(getCourseDto, 'params'), (req, res, ne
 });
 
 //PARTIALLY UPDATE COURSE
-router.patch('/:courseId', validatorHandler(getCourseDto, 'params'), validatorHandler(updateCourseDto, 'body'), (req, res, next) => {
+router.patch('/:courseId', validatorHandler(getCourseDto, 'params'), validatorHandler(updateCourseDto, 'body'), async (req, res, next) => {
   try {
     const {courseId} = req.params; //Obtener ids
     const body = req.body;
-    const {old, changed} = service.update(courseId, body);
+    const {old, changed} = await service.update(courseId, body);
     res.json({
       'success':true,
       'message':'Course updated successfully',
@@ -78,10 +79,10 @@ router.patch('/:courseId', validatorHandler(getCourseDto, 'params'), validatorHa
 });
 
 //DELETE COURSE
-router.delete('/:courseId', (req, res, next) => {
+router.delete('/:courseId', async (req, res, next) => {
   try {
     const {courseId} = req.params; //Obtener ids
-    deletedCourse = service.delete(courseId);
+    deletedCourse = await service.delete(courseId);
     res.json({
       'success':true,
       'message':'Course eliminated successfully',
