@@ -4,9 +4,12 @@ const routerApi = require('./routes')
 const cors = require('cors');
 const {logErrors, boomErrorHandler, errorHandler} = require('./middlewares/error.handler')
 
+const db = require('./db');
+const {DBCONNECTION} = require('./const.json');
 const app = express();
 const port = process.env.PORT || 3000;
 
+db(DBCONNECTION);
 app.use(cors());
 app.use(express.json()) //Definir json como formato de datos
 routerApi(app); //Rutas de nuestras entidades

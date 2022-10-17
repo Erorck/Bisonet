@@ -4,6 +4,7 @@ require('dotenv').config();
 
 
 //SCHEMA PARA DATOS REQUERIDOS Y LOGICA DE NEGOCIO
+const objectId = Joi.string();
 const userId = Joi.number().min(1500000).max(2500000);
 const passwordPattern = Joi.string().pattern(Utilities.REGEX_VALD_PASSWORD.pattern, Utilities.REGEX_VALD_PASSWORD.name);
 const first_name = Joi.string().pattern(Utilities.REGEX_VALD_NAME.pattern, Utilities.REGEX_VALD_NAME.name);
@@ -44,7 +45,7 @@ const updateUserDto = Joi.object({
 });
 
 const getUserDto = Joi.object({
-  userId: userId.required()
+  userId: objectId.required()
 });
 
 module.exports = {

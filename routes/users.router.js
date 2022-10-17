@@ -9,10 +9,11 @@ const router = express.Router();
 //RUTAS GENERALES /
 
 //GET ALL USERS
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const{size} = req.query;
-    const users = service.getAll(size || 10);
+    const filter = req.body;
+    const users = await service.getAll(size || 10, filter);
     res.json({
       'success':true,
       'message':'Users found successfully',
@@ -26,9 +27,9 @@ router.get('/', (req, res, next) => {
 
 
 //CREATE USER
-router.post('/', validatorHandler(createUserDto, 'body'), (req, res) => {
+router.post('/', validatorHandler(createUserDto, 'body'), async (req, res) => {
   const body = req.body;
-  const user = service.create(body); //Para updates y creates
+  const user = await service.create(body); //Para updates y creates
   res.json({
       'success':true, //Validaciones FrontEnd
       'message':'User created successfully', //Mostrar al usuario
@@ -39,10 +40,10 @@ router.post('/', validatorHandler(createUserDto, 'body'), (req, res) => {
 //RUTAS ESPECIFICAS /:userId
 
 //GET USER BY ID
-router.get('/:userId', validatorHandler(getUserDto, 'params'), (req, res, next) => {
+router.get('/:userId', validatorHandler(getUserDto, 'params'), async (req, res, next) => {
   try {
     const {userId} = req.params; //Obtener ids
-    const user = service.getById(userId);
+    const user = await service.getById(userId);
     res.json({
         'success':true,
         'message':'User found successfully',
@@ -55,11 +56,11 @@ router.get('/:userId', validatorHandler(getUserDto, 'params'), (req, res, next) 
 });
 
 //PARTIALLY UPDATE USER
-router.patch('/:userId', validatorHandler(getUserDto, 'params'), validatorHandler(updateUserDto, 'body'), (req, res, next) => {
+router.patch('/:userId', validatorHandler(getUserDto, 'params'), validatorHandler(updateUserDto, 'body'), async (req, res, next) => {
   try {
     const {userId} = req.params; //Obtener ids
     const body = req.body;
-    const {old, changed} = service.update(userId, body);
+    const {old, changed} = await service.update(userId, body);
     res.json({
       'success':true,
       'message':'User updated successfully',
@@ -73,10 +74,10 @@ router.patch('/:userId', validatorHandler(getUserDto, 'params'), validatorHandle
 });
 
 //DELETE USER
-router.delete('/:userId', (req, res, next) => {
+router.delete('/:userId', async (req, res, next) => {
   try {
     const {userId} = req.params; //Obtener ids
-    deletedUser = service.delete(userId);
+    deletedUser = await service.delete(userId);
     res.json({
       'success':true,
       'message':'User eliminated successfully',
