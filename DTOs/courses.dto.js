@@ -14,6 +14,7 @@ const isActive = Joi.boolean();
 const createCourseDto = Joi.object({
   course_name: course_name.required(),
   career_especialty: career_especialty.required(),
+  groups: groups,
   semester: semester.required(),
   isActive: isActive.required()
 });

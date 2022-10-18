@@ -48,7 +48,10 @@ class CoursesService{
     course.course_name = course_name || course.course_name;
     course.career_especialty = career_especialty || course.career_especialty;
     course.semester = semester || course.semester;
-    course.groups = groups;
+
+    if(groups != undefined)
+      course.groups = [...groups];
+
     course.isActive = isActive || course.isActive;
     course.save();
 

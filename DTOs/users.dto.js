@@ -24,8 +24,8 @@ const createUserDto = Joi.object({
   first_last_name: first_last_name.required(),
   second_last_name: second_last_name.required(),
   institutional_email: institutional_email.required(),
-  career_especialty: career_especialty.required(),
-  current_semester: current_semester.required(),
+  career_especialty: career_especialty,
+  current_semester: current_semester,
   profileImage: profileImage,
   user_type: user_type.required(),
   isActive: isActive.required()

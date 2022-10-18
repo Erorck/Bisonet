@@ -9,10 +9,11 @@ const router = express.Router();
 //RUTAS GENERALES /
 
 //GET ALL GROUPS
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const{size} = req.query;
-    const groups = service.getAll(size || 10);
+    const filter = req.body;
+    const groups = await service.getAll(size || 10, filter);
     res.json({
       'success':true,
       'message':'Groups found successfully',
@@ -26,10 +27,10 @@ router.get('/', (req, res, next) => {
 
 
 //CREATE GROUP
-router.post('/', validatorHandler(createGroupDto, 'body'), (req, res) => {
+router.post('/', validatorHandler(createGroupDto, 'body'), async (req, res, next) => {
   try {
     const body = req.body;
-    const group = service.create(body); //Para updates y creates
+    const group = await service.create(body); //Para updates y creates
     res.json({
       'success':true, //Validaciones FrontEnd
       'message':'Group created successfully', //Mostrar al usuario
@@ -44,10 +45,10 @@ router.post('/', validatorHandler(createGroupDto, 'body'), (req, res) => {
 //RUTAS ESPECIFICAS /:id
 
 //GET GROUP BY ID
-router.get('/:groupId', validatorHandler(getGroupDto, 'params'), (req, res, next) => {
+router.get('/:groupId', validatorHandler(getGroupDto, 'params'), async (req, res, next) => {
   try {
     const {groupId} = req.params; //Obtener ids
-    const group = service.getById(groupId);
+    const group = await service.getById(groupId);
     res.json({
         'success':true,
         'message':'Group found successfully',
@@ -60,11 +61,11 @@ router.get('/:groupId', validatorHandler(getGroupDto, 'params'), (req, res, next
 });
 
 //PARTIALLY UPDATE GROUP
-router.patch('/:groupId', validatorHandler(getGroupDto, 'params'), validatorHandler(updateGroupDto, 'body'), (req, res, next) => {
+router.patch('/:groupId', validatorHandler(getGroupDto, 'params'), validatorHandler(updateGroupDto, 'body'), async (req, res, next) => {
   try {
     const {groupId} = req.params; //Obtener ids
     const body = req.body;
-    const {old, changed} = service.update(groupId, body);
+    const {old, changed} = await service.update(groupId, body);
     res.json({
       'success':true,
       'message':'Group updated successfully',
@@ -78,10 +79,10 @@ router.patch('/:groupId', validatorHandler(getGroupDto, 'params'), validatorHand
 });
 
 //DELETE GROUP
-router.delete('/:groupId', (req, res, next) => {
+router.delete('/:groupId', async (req, res, next) => {
   try {
     const {groupId} = req.params; //Obtener ids
-    deletedGroup = service.delete(groupId);
+    deletedGroup = await service.delete(groupId);
     res.json({
       'success':true,
       'message':'Group eliminated successfully',

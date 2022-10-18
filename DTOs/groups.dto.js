@@ -4,13 +4,13 @@ require('dotenv').config();
 
 
 //SCHEMA PARA DATOS REQUERIDOS Y LOGICA DE NEGOCIO
-const groupId = Joi.string();
-const group_teacher = Joi.string();
-const group_members = Joi.string();
-const course = Joi.string();
+const objectId = Joi.string().pattern(Utilities.REGEX_VALD_OBJECT_ID.pattern, Utilities.REGEX_VALD_OBJECT_ID.name);
+const group_teacher = Joi.string().pattern(Utilities.REGEX_VALD_OBJECT_ID.pattern, Utilities.REGEX_VALD_OBJECT_ID.name);
+const group_members = Joi.array();
+const course = Joi.string().pattern(Utilities.REGEX_VALD_OBJECT_ID.pattern, Utilities.REGEX_VALD_OBJECT_ID.name);
 const year = Joi.number().min(2010).max(2025);
 const semester = Joi.number().min(1).max(2);
-const posts = Joi.string();
+const posts = Joi.array();
 const isActive = Joi.boolean();
 
 const createGroupDto = Joi.object({
@@ -33,7 +33,7 @@ const updateGroupDto = Joi.object({
 });
 
 const getGroupDto = Joi.object({
-  groupId: groupId.required()
+  groupId: objectId.required()
 });
 
 module.exports = {
