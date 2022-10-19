@@ -1,12 +1,20 @@
 const Joi = require('joi');
-const {Utilities} = require('../services/utilities.services');
+const { Utilities } = require('../services/utilities.services');
 require('dotenv').config();
 
-
 //SCHEMA PARA DATOS REQUERIDOS Y LOGICA DE NEGOCIO
-const commentId = Joi.string();
-const author = Joi.string();
-const post = Joi.string();
+const objectId = Joi.string().pattern(
+  Utilities.REGEX_VALD_OBJECT_ID.pattern,
+  Utilities.REGEX_VALD_OBJECT_ID.name
+);
+const author = Joi.string().pattern(
+  Utilities.REGEX_VALD_OBJECT_ID.pattern,
+  Utilities.REGEX_VALD_OBJECT_ID.name
+);
+const post = Joi.string().pattern(
+  Utilities.REGEX_VALD_OBJECT_ID.pattern,
+  Utilities.REGEX_VALD_OBJECT_ID.name
+);
 const content = Joi.string();
 const publication_date = Joi.date();
 const modification_date = Joi.date();
@@ -16,19 +24,18 @@ const createCommentDto = Joi.object({
   author: author.required(),
   post: post.required(),
   content: content.required(),
-  publication_date: publication_date.required(),
+  publication_date: publication_date,
   modification_date: modification_date,
-  isActive: isActive.required()
+  isActive: isActive.required(),
 });
 
 const updateCommentDto = Joi.object({
   content: content,
-  modification_date: modification_date.required(),
-  isActive: isActive
+  isActive: isActive,
 });
 
 const getCommentDto = Joi.object({
-  commentId: commentId.required()
+  commentId: objectId.required(),
 });
 
 module.exports = {

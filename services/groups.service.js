@@ -12,7 +12,7 @@ class GroupsService{
 
   constructor(){
     this.groups = [];
-    this.generate_Faker();
+    //this.generate_Faker();
   }
 
 //-------------DB METHODS----------------//

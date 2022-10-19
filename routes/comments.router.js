@@ -9,10 +9,11 @@ const router = express.Router();
 //RUTAS GENERALES /
 
 //GET ALL COMMENT
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const{size} = req.query;
-    const comments = service.getAll(size || 10);
+    const filter = req.body;
+    const comments = await service.getAll(size || 10);
     res.json({
       'success':true,
       'message':'Comments found successfully',
@@ -26,10 +27,10 @@ router.get('/', (req, res, next) => {
 
 
 //CREATE COMMENT
-router.post('/', validatorHandler(createCommentDto, 'body'), (req, res) => {
+router.post('/', validatorHandler(createCommentDto, 'body'), async (req, res, next) => {
   try {
     const body = req.body;
-    const comment = service.create(body); //Para updates y creates
+    const comment = await service.create(body); //Para updates y creates
     res.json({
       'success':true, //Validaciones FrontEnd
       'message':'Comment created successfully', //Mostrar al usuario
@@ -44,10 +45,10 @@ router.post('/', validatorHandler(createCommentDto, 'body'), (req, res) => {
 //RUTAS ESPECIFICAS /:id
 
 //GET COMMENT BY ID
-router.get('/:commentId', validatorHandler(getCommentDto, 'params'), (req, res, next) => {
+router.get('/:commentId', validatorHandler(getCommentDto, 'params'), async (req, res, next) => {
   try {
     const {commentId} = req.params; //Obtener ids
-    const comment = service.getById(commentId);
+    const comment = await service.getById(commentId);
     res.json({
         'success':true,
         'message':'Comment found successfully',
@@ -60,11 +61,11 @@ router.get('/:commentId', validatorHandler(getCommentDto, 'params'), (req, res, 
 });
 
 //PARTIALLY UPDATE COMMENT
-router.patch('/:commentId', validatorHandler(getCommentDto, 'params'), validatorHandler(updateCommentDto, 'body'), (req, res, next) => {
+router.patch('/:commentId', validatorHandler(getCommentDto, 'params'), validatorHandler(updateCommentDto, 'body'), async (req, res, next) => {
   try {
     const {commentId} = req.params; //Obtener ids
     const body = req.body;
-    const {old, changed} = service.update(commentId, body);
+    const {old, changed} = await service.update(commentId, body);
     res.json({
       'success':true,
       'message':'Comment updated successfully',
@@ -78,10 +79,10 @@ router.patch('/:commentId', validatorHandler(getCommentDto, 'params'), validator
 });
 
 //DELETE COMMENT
-router.delete('/:commentId', (req, res, next) => {
+router.delete('/:commentId', async (req, res, next) => {
   try {
     const {commentId} = req.params; //Obtener ids
-    deletedComment = service.delete(commentId);
+    deletedComment = await service.delete(commentId);
     res.json({
       'success':true,
       'message':'Comment eliminated successfully',
