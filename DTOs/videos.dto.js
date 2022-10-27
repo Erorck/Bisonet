@@ -1,23 +1,26 @@
 const Joi = require('joi');
+const {Utilities} = require('../services/utilities.services');
 require('dotenv').config();
 
-const uuidVideo = Joi.string();
+const uuidVideo = Joi.string().pattern(Utilities.REGEX_VALD_OBJECT_ID.pattern, Utilities.REGEX_VALD_OBJECT_ID.name);
+const VideoId = Joi.number().min(1500000).max(2500000);
 const video = Joi.string();
 const upload_date = Joi.date();
 const id_post = Joi.string();
 const active = Joi.boolean();
 
 const createVideoDto = Joi.object({
-    video: video.required(),
-    upload_date: upload_date.required(),
-    id_post: id_post.required(),
-    active: active.required()
+    videos_id: VideoId.required(),
+    content: video.required(),
+    Fecha_Publicacion: upload_date.required(),
+    post: id_post.required(),
+    isActive: active.required()
 });
 
 const updateVideoDto = Joi.object({
-    video: video,
-    upload_date: upload_date.required(),
-    active: active.required()
+    content: video,
+    Fecha_Publicacion: upload_date.required(),
+    isActive: active
   });
 
   const getVideoDto = Joi.object({

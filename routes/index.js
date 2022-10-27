@@ -22,13 +22,13 @@ const routerApi = (app) => {
   router.use('/courses', coursesRouter);
   router.use('/groups', groupsRouter);
   router.use('/post', postRouter);
-  router.use('/post', evCulturalRouter);
+  /*router.use('/post', evCulturalRouter);
   router.use('/post', evDeportivoRouter);
   router.use('/post', notComunicadosRouter);
   router.use('/post', notConvocatoriaRouter);
   router.use('/post', notTramitesRouter);
   router.use('/post', notTramitesRouter);
-  router.use('/post', notTramitesRouter);
+  router.use('/post', notTramitesRouter);*/
   router.use('/photos', photosRouter);
   router.use('/videos', videosRouter);
   router.use('/comments', commentsRouter);

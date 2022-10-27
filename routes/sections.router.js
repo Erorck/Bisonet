@@ -9,7 +9,7 @@ const {createSectionDto, updateSectionDto, getSectionDto} = require('../DTOs/sec
 router.get('/get/section', async (req, res, next) =>{
     try {
         const{size} = req.query;
-        const sections = Service.getAll(size || 10);
+        const sections = await Service.getAll(size || 10);
         res.json({
           'success':true,
           'message':'Sections found successfully',
@@ -20,10 +20,10 @@ router.get('/get/section', async (req, res, next) =>{
       }
 });
 
-router.get('/get/section/:sectionId', validatorHandler(getSectionDto, 'params'), (req, res, next) =>{
+router.get('/get/section/:sectionId', validatorHandler(getSectionDto, 'params'), async (req, res, next) =>{
     try {
         const {sectionId} = req.params; //Obtener ids
-        const section = Service.getById(sectionId);
+        const section = await Service.getById(sectionId);
         res.json({
             'success':true,
             'message':'Section found successfully',
@@ -34,10 +34,10 @@ router.get('/get/section/:sectionId', validatorHandler(getSectionDto, 'params'),
       }
 });
 
-router.post('/create/section', validatorHandler(createSectionDto, 'body'), (req, res) =>{
+router.post('/create/section', validatorHandler(createSectionDto, 'body'), async (req, res, next) =>{
     try {
         const body = req.body;
-        const section = Service.create(body); //Para updates y creates
+        const section = await Service.create(body); //Para updates y creates
         res.json({
           'success':true, //Validaciones FrontEnd
           'message':'Section created successfully', //Mostrar al usuario
@@ -48,11 +48,11 @@ router.post('/create/section', validatorHandler(createSectionDto, 'body'), (req,
       }
 });
 
-router.patch('/update/section/:sectionId', validatorHandler(getSectionDto, 'params'), validatorHandler(updateSectionDto, 'body'), (req, res, next) =>{
+router.patch('/update/section/:sectionId', validatorHandler(getSectionDto, 'params'), validatorHandler(updateSectionDto, 'body'), async (req, res, next) =>{
     try {
         const {sectionId} = req.params; //Obtener ids
         const body = req.body;
-        const {old, changed} = Service.update(sectionId, body);
+        const {old, changed} = await Service.update(sectionId, body);
         res.json({
           'success':true,
           'message':'Section updated successfully',
@@ -67,7 +67,7 @@ router.patch('/update/section/:sectionId', validatorHandler(getSectionDto, 'para
 router.delete('/delete/section/:sectionId', async (req, res, next) =>{
     try {
         const {sectionId} = req.params; //Obtener ids
-        deletedSection = Service.delete(sectionId);
+        deletedSection = await Service.delete(sectionId);
         res.json({
           'success':true,
           'message':'Section eliminated successfully',

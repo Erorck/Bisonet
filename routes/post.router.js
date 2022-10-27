@@ -9,7 +9,7 @@ const {createPostDto, updatePostDto, getPostDto} = require('../DTOs/post.dto');
 router.get('/get/post', async (req, res, next) =>{
     try {
         const{size} = req.query;
-        const post = service.getAll(size || 10);
+        const post = await service.getAll(size || 10);
         res.json({
           'success':true,
           'message':'post found successfully',
@@ -20,10 +20,10 @@ router.get('/get/post', async (req, res, next) =>{
       }
 });
 
-router.get('/get/post/:postId', validatorHandler(getPostDto, 'params'), (req, res, next) =>{
+router.get('/get/post/:postId', validatorHandler(getPostDto, 'params'), async (req, res, next) =>{
     try {
         const {postId} = req.params; //Obtener ids
-        const post = service.getById(postId);
+        const post = await service.getById(postId);
         res.json({
             'success':true,
             'message':'post found successfully',
@@ -34,10 +34,10 @@ router.get('/get/post/:postId', validatorHandler(getPostDto, 'params'), (req, re
       }
 });
 
-router.post('/create/post/', validatorHandler(createPostDto, 'body'), (req, res) =>{
+router.post('/create/post/', validatorHandler(createPostDto, 'body'), async (req, res, next) =>{
     try {
         const body = req.body;
-        const post = service.create(body); //Para updates y creates
+        const post = await service.create(body); //Para updates y creates
         res.json({
           'success':true, //Validaciones FrontEnd
           'message':'post created successfully', //Mostrar al usuario
@@ -48,11 +48,11 @@ router.post('/create/post/', validatorHandler(createPostDto, 'body'), (req, res)
       }
 });
 
-router.patch('/update/post/:postId',  validatorHandler(getPostDto, 'params'), validatorHandler(updatePostDto, 'body'), (req, res, next) =>{
+router.patch('/update/post/:postId',  validatorHandler(getPostDto, 'params'), validatorHandler(updatePostDto, 'body'), async (req, res, next) =>{
     try {
         const {postId} = req.params; //Obtener ids
         const body = req.body;
-        const {old, changed} = service.update(postId, body);
+        const {old, changed} = await service.update(postId, body);
         res.json({
           'success':true,
           'message':'post updated successfully',
@@ -67,7 +67,7 @@ router.patch('/update/post/:postId',  validatorHandler(getPostDto, 'params'), va
 router.delete('/delete/post/:postId', async (req, res, next) =>{
     try {
         const {postId} = req.params; //Obtener ids
-        post = service.delete(postId);
+        post = await service.delete(postId);
         res.json({
           'success':true,
           'message':'post eliminated successfully',

@@ -9,7 +9,7 @@ const {createVideoDto, updateVideoDto, getVideoDto} = require('../DTOs/videos.dt
 router.get('/get/videos', async (req, res, next) =>{
     try {
         const{size} = req.query;
-        const videos = service.getAll(size || 10);
+        const videos = await service.getAll(size || 10);
         res.json({
           'success':true,
           'message':'videos found successfully',
@@ -20,10 +20,10 @@ router.get('/get/videos', async (req, res, next) =>{
       }
 });
 
-router.get('/get/videos/:idVideo', validatorHandler(getVideoDto, 'params'), (req, res, next) =>{
+router.get('/get/videos/:idVideo', validatorHandler(getVideoDto, 'params'), async (req, res, next) =>{
     try {
         const {idVideo} = req.params; //Obtener ids
-        const videos = service.getById(idVideo);
+        const videos = await service.getById(idVideo);
         res.json({
             'success':true,
             'message':'videos found successfully',
@@ -34,10 +34,10 @@ router.get('/get/videos/:idVideo', validatorHandler(getVideoDto, 'params'), (req
       }
 });
 
-router.post('/create/videos/', validatorHandler(createVideoDto, 'body'), (req, res) =>{
+router.post('/create/videos/', validatorHandler(createVideoDto, 'body'), async (req, res) =>{
     try {
         const body = req.body;
-        const videos = service.create(body); //Para updates y creates
+        const videos = await service.create(body); //Para updates y creates
         res.json({
           'success':true, //Validaciones FrontEnd
           'message':'videos created successfully', //Mostrar al usuario
@@ -48,11 +48,11 @@ router.post('/create/videos/', validatorHandler(createVideoDto, 'body'), (req, r
       }
 });
 
-router.patch('/update/videos/:idVideo', validatorHandler(getVideoDto, 'params'), validatorHandler(updateVideoDto, 'body'), (req, res, next) =>{
+router.patch('/update/videos/:idVideo', validatorHandler(getVideoDto, 'params'), validatorHandler(updateVideoDto, 'body'), async (req, res, next) =>{
     try {
         const {idVideo} = req.params; //Obtener ids
         const body = req.body;
-        const {old, changed} = service.update(idVideo, body);
+        const {old, changed} = await service.update(idVideo, body);
         res.json({
           'success':true,
           'message':'videos updated successfully',
@@ -67,7 +67,7 @@ router.patch('/update/videos/:idVideo', validatorHandler(getVideoDto, 'params'),
 router.delete('/delete/videos/:idVideo', async (req, res, next) =>{
     try {
         const {idVideo} = req.params; //Obtener ids
-        videos = service.delete(idVideo);
+        videos = await service.delete(idVideo);
         res.json({
           'success':true,
           'message':'photos eliminated successfully',

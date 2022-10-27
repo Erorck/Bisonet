@@ -9,7 +9,7 @@ const {createPhotoDto, updatePhotoDto, getPhotoDto} = require('../DTOs/photos.dt
 router.get('/get/photos', async (req, res, next) =>{
     try {
         const{size} = req.query;
-        const photos = service.getAll(size || 10);
+        const photos = await service.getAll(size || 10);
         res.json({
           'success':true,
           'message':'photos found successfully',
@@ -20,10 +20,10 @@ router.get('/get/photos', async (req, res, next) =>{
       }
 });
 
-router.get('/get/photos/:photoId', validatorHandler(getPhotoDto, 'params'), (req, res, next) =>{
+router.get('/get/photos/:photoId', validatorHandler(getPhotoDto, 'params'), async (req, res, next) =>{
     try {
         const {photoId} = req.params; //Obtener ids
-        const photos = service.getById(photoId);
+        const photos = await service.getById(photoId);
         res.json({
             'success':true,
             'message':'photos found successfully',
@@ -34,10 +34,10 @@ router.get('/get/photos/:photoId', validatorHandler(getPhotoDto, 'params'), (req
       }
 });
 
-router.post('/create/photos/', validatorHandler(createPhotoDto, 'body'), (req, res) =>{
+router.post('/create/photos/', validatorHandler(createPhotoDto, 'body'), async (req, res) =>{
     try {
         const body = req.body;
-        const photos = service.create(body); //Para updates y creates
+        const photos = await service.create(body); //Para updates y creates
         res.json({
           'success':true, //Validaciones FrontEnd
           'message':'photos created successfully', //Mostrar al usuario
@@ -48,11 +48,11 @@ router.post('/create/photos/', validatorHandler(createPhotoDto, 'body'), (req, r
       }
 });
 
-router.patch('/update/photos/:photoId',  validatorHandler(getPhotoDto, 'params'), validatorHandler(updatePhotoDto, 'body'), (req, res, next) =>{
+router.patch('/update/photos/:photoId',  validatorHandler(getPhotoDto, 'params'), validatorHandler(updatePhotoDto, 'body'), async (req, res, next) =>{
     try {
         const {photoId} = req.params; //Obtener ids
         const body = req.body;
-        const {old, changed} = service.update(photoId, body);
+        const {old, changed} = await service.update(photoId, body);
         res.json({
           'success':true,
           'message':'photos updated successfully',
@@ -67,7 +67,7 @@ router.patch('/update/photos/:photoId',  validatorHandler(getPhotoDto, 'params')
 router.delete('/delete/photos/:photoId', async (req, res, next) =>{
     try {
         const {photoId} = req.params; //Obtener ids
-        photos = service.delete(photoId);
+        photos = await service.delete(photoId);
         res.json({
           'success':true,
           'message':'photos eliminated successfully',
