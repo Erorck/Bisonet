@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export class Event extends React.Component {
     constructor(props) {
@@ -13,15 +14,17 @@ export class Event extends React.Component {
 
     render() {
         return (
-            <div className='EventCard'>
-                <img src={this.state.EventImage} alt={this.state.ImageAlt} />
-                <div className='EventText'>
-                    <span>{this.state.EventTitle}</span>
+            <Link to={'/noticia'} style={{ textDecoration: 'none', color: 'white' }}>
+                <div className='EventCard'>
+                    <img src={this.state.EventImage} alt={this.state.ImageAlt} />
+                    <div className='EventText'>
+                        <span>{this.state.EventTitle}</span>
+                    </div>
+                    <div className='EventDate'>
+                        <span>{this.state.EventDate}</span>
+                    </div>
                 </div>
-                <div className='EventDate'>
-                    <span>{this.state.EventDate}</span>
-                </div>
-            </div>
+            </Link>
         )
     }
 }

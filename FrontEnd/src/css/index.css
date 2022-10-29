@@ -126,6 +126,10 @@ body {
     height: 100%;
 }
 
+Link {
+    text-decoration: 'none';
+}
+
 .carousel-indicators button {
     width: 15px !important;
     height: 15px !important;

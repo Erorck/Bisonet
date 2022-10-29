@@ -13,6 +13,7 @@ import { ReportsPage } from '../pages/Reports';
 import { PostsPage } from '../pages/Post';
 import { CoursesPage } from '../pages/AdminCourses';
 import { GroupsPage } from '../pages/Groups';
+import { NewPage } from '../pages/New';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route exact path='/fcfm' element={<FcfmPage />}></Route>
         <Route exact path='/lmad' element={<LmadPage />}></Route>
         <Route exact path='/materia' element={<CoursePage />}></Route>
+        <Route exact path='/noticia' element={<NewPage />}></Route>
         <Route exact path='/perfil' element={<ProfilePage />}></Route>
         <Route exact path='/login' element={<LoginPage />}></Route>
         <Route exact path='/registro' element={<RegisterPage />}></Route>
