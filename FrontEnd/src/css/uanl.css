@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Changa%27');
+
+:root {
+    --top-height: 35vh;
+    --content-width: 90vw;
+}
+
+* {
+    font-family: 'Changa';
+}
+
+.HeadCarousel {
+    box-sizing: border-box;
+    height: var(--top-height);
+    overflow: hidden;
+}
+
+.CarouselMessage {
+    position: absolute;
+    display: flex;
+    padding: 2vh 2vw;
+    justify-content: flex-start;
+    align-items: flex-end;
+    height: var(--top-height);
+    width: 100%;
+    z-index: 99;
+    color: #ffffff;
+    font-size: 3em;
+    word-spacing: 10px;
+    letter-spacing: 5px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.BodyContent {
+    box-sizing: border-box;
+    position: relative;
+    margin-bottom: 20px;
+    min-height: 100vh;
+}
+
+.BodyHeader {
+    display: flex;
+    justify-content: center;
+    background-color: #1877F2;
+    word-spacing: 10px;
+    letter-spacing: 5px;
+    width: 100%;
+    text-transform: uppercase;
+    font-size: 2.5em;
+    color: #ffffff;
+    padding: 1vh;
+    margin: 2vh 0;
+}
+
+.LastNews {
+    color: #ffffff;
+    font-size: 2em;
+    margin: auto;
+    margin-top: 5vh;
+    width: var(--content-width);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.LastNews img {
+    width: 100%;
+    height: 100%;
+}
+
+.NewsHolder {
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+.LowerNews {
+    display: grid;
+    padding: 0px 1vw;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1vw;
+}
+
+.CardDescription {
+    background-color: green;
+}
+
+.NewCard {
+    display: flex;
+    position: relative;
+    border-radius: 6px;
+    box-sizing: border-box;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.CardText {
+    position: absolute;
+    align-self: flex-end;
+    text-align: center;
+    font-size: 2vw;
+    height: 1.5em;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    transition: height .5s ease, background-color .2s ease;
+}
+
+.CardDescription .CardText {
+    height: 90%;
+    background-color: rgba(24, 119, 242, .95);
+}
+
+.CardText>span {
+    opacity: 100%;
+    transition: opacity .5s;
+}
+
+.CardDescription .CardText>span {
+    opacity: 0%;
+}
+
+.CardInfo {
+    position: absolute;
+    align-self: center;
+    text-align: left;
+    width: 100%;
+    padding: 1vw;
+    font-size: 2vw;
+    opacity: 0%;
+    transition: opacity .5s;
+}
+
+.CardDescription .CardInfo {
+    opacity: 100%;
+}
+
+.UpcommingEvents {
+    color: #ffffff;
+    font-size: 2em;
+    margin: auto;
+    margin-top: 5vh;
+    width: var(--content-width);
+}
+
+.EventsHolder {
+    position: relative;
+    box-sizing: border-box;
+    padding: 10px 10px;
+    display: flex;
+    gap: 1vw;
+    justify-content: space-around;
+}
+
+.EventsHolder img {
+    width: 100%;
+    height: 100%;
+}
+
+.EventCard {
+    display: flex;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+}
+
+.EventText {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    text-align: start;
+    background-color: rgba(0, 0, 0, 0.8);
+    top: 100%;
+    padding-left: 5px;
+    transform: translateY(-100%);
+}
+
+.EventDate {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    background-color: #1877F2;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    top: 0;
+    right: 5px;
+}
+
+.EventDate span {
+    text-align: center;
+    font-size: .8em;
+    margin: 5px
+}

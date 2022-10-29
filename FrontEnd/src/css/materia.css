@@ -1,0 +1,68 @@
+.ThreadCard {
+    margin: 2vh 0;
+}
+
+.ThreadHead {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    width: 90%;
+    height: auto;
+    padding: 2vw;
+    margin: auto;
+    justify-content: space-between;
+    color: #ffffff;
+    background-color: rgba(35, 35, 35, 1);
+    border-radius: 6px;
+}
+
+.PhotoHolder {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 5vw;
+    height: 5vw;
+    overflow: hidden;
+    border-radius: 100%;
+}
+
+.PhotoHolder img {
+    width: 100%;
+    height: auto;
+}
+
+.UpperInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ProfesorInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    font-size: 2.5vw;
+    letter-spacing: 2px;
+}
+
+.ThreadDate {
+    font-size: 1.5vw;
+}
+
+.LowerInfo .Message {
+    font-size: 1.5vw;
+}
+
+.DisplayerHolder {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    gap: 2vw;
+    font-size: 2vw;
+}
+
+.Message {
+    font-size: 1.5vw;
+}

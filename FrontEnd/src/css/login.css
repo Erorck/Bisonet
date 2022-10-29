@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Changa');
+
+
+* {
+    font-family: 'Changa', sans-serif;
+}
+
+
+.loginContendHolder, .RegisterContentHolder {
+    height: 100%;
+    background-image: linear-gradient(rgb(0, 0, 0), rgba(0, 0, 0, 0.589)),
+        url("../resources/fcfm.jpg");
+    background-size: cover;
+}
+
+.LinkRegistro p {
+    color: white;
+    font-size: 50px;
+}
+
+label {
+    color: rgb(211, 211, 211);
+}
+
+.divider:after,
+.divider:before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
+}
+
+.h-custom {
+    height: calc(100% - 73px);
+}
+
+@media (max-width: 450px) {
+    .h-custom {
+        height: 100%;
+    }
+}
+
+button[type=submit] {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+}
+
+#login, #registro {
+    padding: 1em .5em;
+}

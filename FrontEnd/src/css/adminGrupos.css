@@ -1,0 +1,17 @@
+.table-dark {
+    color: #fff;
+    background-color: #343a40;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table {
+    width: 80% !important;
+    margin: auto;
+}
+
+.table th td {
+    text-align: center;
+    text-justify: newspaper;
+}

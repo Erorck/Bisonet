@@ -1,0 +1,119 @@
+.post-list {
+    padding: 90px 0px;
+}
+
+.post-detail {
+    padding: 40px 0px;
+    margin-top: 120px;
+}
+
+.post {
+    width: 100%;
+    float: left;
+    -webkit-box-shadow: 0px 1px 3px white;
+    -moz-box-shadow: 0px 1px 3px white;
+    box-shadow: 0px 1px 3px white;
+    background: #232323;
+    margin-bottom: 40px;
+    border-radius: 3px;
+}
+
+
+.post .post-img a img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.post-detail .post .caption {
+    padding: 55px 45px 0px 45px;
+}
+
+.post .caption {
+    float: left;
+    width: 100%;
+    text-align: left;
+    padding: 25px 25px;
+}
+
+.post .caption h3 {
+    margin: 0px 0px 20px 0px;
+    color: white;
+    font-weight: 300;
+    font-size: 34px;
+    line-height: 42px;
+}
+
+.post .caption p {
+    line-height: 28px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: white;
+}
+
+.post .author-info {
+    padding: 15px 15px 15px 15px;
+    text-align: left;
+    min-height: 60px;
+    border-bottom: 1px solid #ddd;
+    background: #232323;
+    float: left;
+    width: 100%;
+}
+
+.post .author-info ul li p {
+    line-height: 16px;
+    color: white;
+    font-weight: 300;
+    font-size: 14px;
+    margin: 0px;
+}
+
+.post .author-info ul li strong {
+    color: white;
+}
+
+.pagination>.active>a,
+.pagination>.active>a:focus,
+.pagination>.active>a:hover,
+.pagination>.active>span,
+.pagination>.active>span:focus,
+.pagination>.active>span:hover {
+    background-color: #3b4952;
+    border-color: #3b4952;
+}
+
+.pagination>li>a,
+.pagination>li>span {
+    color: #2c3840;
+    margin: 0px 5px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0px 1px 3px 0px rgba(44, 56, 64, 0.2);
+    -moz-box-shadow: 0px 1px 3px 0px rgba(44, 56, 64, 0.2);
+    box-shadow: 0px 1px 3px 0px rgba(44, 56, 64, 0.2);
+    border: none;
+    font-size: 16px;
+}
+
+.pagination>li>a:focus,
+.pagination>li>a:hover,
+.pagination>li>span:focus,
+.pagination>li>span:hover {
+    background-color: #2B9FFF;
+    border-color: #2B9FFF;
+    color: #fff;
+}
+
+.pagination-wrap {
+    width: 100%;
+    float: left;
+    margin-bottom: 35px;
+}
+
+.pagination {
+    margin: 0px;
+}
+
+.postList {
+    height: auto;
+}

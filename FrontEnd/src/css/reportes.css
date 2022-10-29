@@ -1,0 +1,23 @@
+.primero {
+    display: flex;
+    flex-direction: column;
+}
+
+.conteiner {
+    display: flex;
+    justify-content: space-evenly;
+    height: 710px;
+}
+
+.table-dark {
+    color: #fff;
+    background-color: #343a40;
+    width: auto;
+    margin-right: 300px;
+}
+
+.btn-primary {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 70px;
+}

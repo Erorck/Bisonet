@@ -1,0 +1,64 @@
+#dropdownMenuButton.btn.btn-secondary.dropdown-toggle {
+    background-color: #2B9FFF;
+}
+
+.materias {
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 8vh;
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+}
+
+.card-body {
+    color: white;
+}
+
+.CourseCardAdm {
+    margin-top: 50px;
+    width: 18rem;
+    padding: 10px;
+    background-color: #232323;
+}
+
+@media screen and (min-width:1200px) {
+    .materias {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        padding: 0 150px;
+
+    }
+}
+
+
+@media screen and (max-width:1500px) {
+    .materias {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        padding: 0 150px;
+        transition: 0.3s;
+
+    }
+}
+
+@media screen and (max-width:1350px) {
+    .materias {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        padding: 0 150px;
+        transition: 0.3s;
+
+    }
+}
+
+@media screen and (max-width:1200px) {
+    .materias {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        padding: 0 50px;
+        transition: 0.3s;
+
+    }
+}

@@ -1,0 +1,64 @@
+.gradient-custom {
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right bottom, #2B9FFF, #1828da)
+}
+
+.vh-100 {
+    height: 86vh !important;
+}
+
+h1 {
+    font-size: 45px;
+    letter-spacing: 2px;
+    color: white;
+}
+
+.ProfileHeader {
+    font-size: 25px;
+    color: white;
+}
+
+.ProfileParagraph {
+    font-size: 20px;
+    color: rgb(202, 202, 202);
+}
+
+.col-md-8 {
+    background-color: rgba(35, 35, 35, 1) !important;
+}
+
+.ProfilePhoto {
+    border-radius: 20px;
+}
+
+.card {
+    border: 3px solid white !important;
+}
+
+.col-md-4 a {
+    color: white;
+}
+
+.img-fluid .my-5 {
+    width: 160px;
+}
+
+.col-md-4 .gradient-custom .text-center {
+    border-top-left-radius: .5rem;
+    border-bottom-left-radius: .5rem;
+}
+
+.card .mb-3 {
+    border-radius: .5rem;
+}
+
+.vh-100 {
+    background: rgba(25, 25, 25, 0);
+}
+
+.EditProfileBtn {
+    background-color: transparent;
+    border: none;
+    color: white;
+    margin-bottom: 5vh;
+}

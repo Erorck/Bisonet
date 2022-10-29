@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=Changa%27');
+
+* {
+    font-family: 'Changa';
+}
+
+::-webkit-scrollbar {
+    width: .5vw;
+    border-radius: 100%;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(25, 25, 25, 0);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+body {
+    background-color: rgba(25, 25, 25, 1) !important;
+    box-sizing: border-box;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+#root {
+    width: 100%;
+    height: 100vh;
+}
+
+.MainPage {
+    width: 100%;
+    height: 100%;
+}
+
+.UpperTab {
+    background-color: rgba(0, 0, 0, 1);
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    height: 7vh;
+    padding: 10px 10px;
+    z-index: 100;
+}
+
+.Logo {
+    display: flex;
+    justify-content: center;
+    width: auto;
+    height: 100%;
+    margin: 0px 30px;
+}
+
+.Logo img {
+    width: auto;
+    height: 100%;
+}
+
+.MenuOptions {
+    display: flex;
+    width: auto;
+    height: 100%;
+    padding: 0;
+    margin: auto;
+}
+
+.MenuOptions ul {
+    display: flex;
+    list-style: none;
+    width: auto;
+    padding: 0;
+    margin: 0;
+    justify-content: space-around;
+}
+
+.MenuOptions ul li {
+    display: flex;
+    align-items: center;
+    list-style: none;
+}
+
+.MenuOptions ul li button {
+    font-size: 24px;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 0 1em;
+    height: fit-content;
+    color: white;
+    background-color: transparent;
+    transition: all .5s ease;
+    letter-spacing: 4px;
+}
+
+.MenuOptions ul li button:hover {
+    color: #2B3DFF;
+    text-shadow: 0 0 5px#4352ff;
+    font-size: 30px;
+}
+
+.MainCarousell {
+    width: auto;
+    height: 86vh;
+    overflow: hidden;
+}
+
+.WelcomeMessage {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 86vh;
+    width: 100%;
+    z-index: 80;
+    color: #ffffff;
+    font-size: 3em;
+    word-spacing: 10px;
+    letter-spacing: 5px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.carousel {
+    height: 100%;
+}
+
+.carousel-indicators button {
+    width: 15px !important;
+    height: 15px !important;
+    border-radius: 100%;
+}
+
+.carousel-item {
+    height: 100%;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.Footer {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    background-color: #000000;
+    justify-content: center;
+    align-items: center;
+    height: 7vh;
+}
+
+.Footer span {
+    text-transform: uppercase;
+    font-size: 1.5em;
+    color: #FFFFFF;
+    word-spacing: .5em;
+    letter-spacing: 4px;
+}
+
+.ProfileHolder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ProfileHolder button {
+    background-color: transparent;
+    border-color: white;
+    color: white;
+    border-width: 2px;
+    line-height: 2em;
+    border-radius: 6px;
+    transition: color .5s ease, background-color .5s ease, font-size .5s ease;
+}
+
+.ProfileHolder button:hover {
+    background-color: white;
+    color: black;
+    font-size: 1.2em;
+}
