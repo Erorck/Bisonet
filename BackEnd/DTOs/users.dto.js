@@ -1,20 +1,43 @@
 const Joi = require('joi');
-const {Utilities} = require('../services/utilities.services');
+const { Utilities } = require('../services/utilities.services');
 require('dotenv').config();
 
-
 //SCHEMA PARA DATOS REQUERIDOS Y LOGICA DE NEGOCIO
-const objectId = Joi.string().pattern(Utilities.REGEX_VALD_OBJECT_ID.pattern, Utilities.REGEX_VALD_OBJECT_ID.name);
+const objectId = Joi.string().pattern(
+  Utilities.REGEX_VALD_OBJECT_ID.pattern,
+  Utilities.REGEX_VALD_OBJECT_ID.name
+);
 const userId = Joi.number().min(1500000).max(2500000);
-const passwordPattern = Joi.string().pattern(Utilities.REGEX_VALD_PASSWORD.pattern, Utilities.REGEX_VALD_PASSWORD.name);
-const first_name = Joi.string().pattern(Utilities.REGEX_VALD_NAME.pattern, Utilities.REGEX_VALD_NAME.name);
-const first_last_name = Joi.string().pattern(Utilities.REGEX_VALD_NAME.pattern, Utilities.REGEX_VALD_NAME.name);
-const second_last_name = Joi.string().pattern(Utilities.REGEX_VALD_NAME.pattern, Utilities.REGEX_VALD_NAME.name);
-const institutional_email = Joi.string().pattern(Utilities.REGEX_VALD_EMAIL.pattern, Utilities.REGEX_VALD_EMAIL.name);
-const career_especialty = Joi.string();
+const passwordPattern = Joi.string().pattern(
+  Utilities.REGEX_VALD_PASSWORD.pattern,
+  Utilities.REGEX_VALD_PASSWORD.name
+);
+const first_name = Joi.string().pattern(
+  Utilities.REGEX_VALD_NAME.pattern,
+  Utilities.REGEX_VALD_NAME.name
+);
+const first_last_name = Joi.string().pattern(
+  Utilities.REGEX_VALD_NAME.pattern,
+  Utilities.REGEX_VALD_NAME.name
+);
+const second_last_name = Joi.string().pattern(
+  Utilities.REGEX_VALD_NAME.pattern,
+  Utilities.REGEX_VALD_NAME.name
+);
+const institutional_email = Joi.string().pattern(
+  Utilities.REGEX_VALD_EMAIL.pattern,
+  Utilities.REGEX_VALD_EMAIL.name
+);
+const career_especialty = Joi.string().valid(
+  'Programación',
+  '3D',
+  '2D',
+  'Video',
+  'Tronco común'
+);
 const current_semester = Joi.number().min(1).max(10);
 const profileImage = Joi.string();
-const user_type = Joi.string().pattern(Utilities.REGEX_VALD_NAME.pattern, Utilities.REGEX_VALD_NAME.name);
+const user_type = Joi.string().valid('Alumno', 'Maestro', 'Administrador');
 const isActive = Joi.boolean();
 
 const createUserDto = Joi.object({
@@ -28,7 +51,7 @@ const createUserDto = Joi.object({
   current_semester: current_semester,
   profileImage: profileImage,
   user_type: user_type.required(),
-  isActive: isActive.required()
+  isActive: isActive.required(),
 });
 
 const updateUserDto = Joi.object({
@@ -40,16 +63,22 @@ const updateUserDto = Joi.object({
   career_especialty: career_especialty,
   current_semester: current_semester,
   profileImage: profileImage,
-  user_type:user_type,
-  isActive: isActive
+  user_type: user_type,
+  isActive: isActive,
 });
 
 const getUserDto = Joi.object({
-  userId: objectId.required()
+  userId: objectId.required(),
+});
+
+const loginDto = Joi.object({
+  institutional_email: institutional_email.required(),
+  password: Joi.string().required(),
 });
 
 module.exports = {
   createUserDto,
   updateUserDto,
   getUserDto,
+  loginDto,
 };

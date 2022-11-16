@@ -1,12 +1,21 @@
 const Joi = require('joi');
-const {Utilities} = require('../services/utilities.services');
+const { Utilities } = require('../services/utilities.services');
 require('dotenv').config();
 
-
 //SCHEMA PARA DATOS REQUERIDOS Y LOGICA DE NEGOCIO
-const objectId = Joi.string().pattern(Utilities.REGEX_VALD_OBJECT_ID.pattern, Utilities.REGEX_VALD_OBJECT_ID.name);
+const objectId = Joi.string().pattern(
+  Utilities.REGEX_VALD_OBJECT_ID.pattern,
+  Utilities.REGEX_VALD_OBJECT_ID.name
+);
 const course_name = Joi.string();
-const career_especialty = Joi.string();
+const career_especialty = Joi.string().valid(
+  'Programación',
+  '3D',
+  '2D',
+  'Video',
+  'Arte',
+  'Tronco común'
+);
 const semester = Joi.number().min(1).max(10);
 const groups = Joi.array();
 const isActive = Joi.boolean();
@@ -16,7 +25,7 @@ const createCourseDto = Joi.object({
   career_especialty: career_especialty.required(),
   groups: groups,
   semester: semester.required(),
-  isActive: isActive.required()
+  isActive: isActive.required(),
 });
 
 const updateCourseDto = Joi.object({
@@ -24,11 +33,11 @@ const updateCourseDto = Joi.object({
   career_especialty: career_especialty,
   semester: semester,
   groups: groups,
-  isActive: isActive
+  isActive: isActive,
 });
 
 const getCourseDto = Joi.object({
-  courseId: objectId.required()
+  courseId: objectId.required(),
 });
 
 module.exports = {

@@ -2,91 +2,108 @@ const faker = require('faker');
 const boom = require('@hapi/boom');
 const TiposPostModel = require('../models/tipos_post.model');
 
-const NOT_FOUND_COLL_MSG = 'Collection doesn\'t exists';
+const NOT_FOUND_COLL_MSG = "Collection doesn't exists";
 const NO_TIPOS_POST_REGISTERED_MSG = 'There are no post registered';
 const TIPOS_POST_NOT_FOUND_MSG = 'Post not found: ';
 
-class TiposPostService
-{
-    constructor(){
-        this.tiposPost = [];
-        //this.generate();
-      }
+class TiposPostService {
+  constructor() {
+    this.tiposPost = [];
+    //this.generate();
+  }
 
-    //DB METHODS-----------------------------------------
+  //DB METHODS-----------------------------------------
 
-async create(data){
+  async create(data) {
+    const existsPostType = await TiposPostModel.findOne({
+      nombre: data.nombre,
+    });
+
+    if (existsPostType) {
+      throw boom.unauthorized('There is already a Post Type with that name');
+    }
+
     const newTiposPost = new TiposPostModel(data);
     await newTiposPost.save();
     return data;
   }
-  
-  async update(TiposPostId, changes){
+
+  async update(TiposPostId, changes) {
     let TiposPost = await TiposPostModel.findOne({
-      _id: TiposPostId
+      _id: TiposPostId,
     });
-  
-    if(TiposPost == undefined || TiposPost == null)
+
+    if (TiposPost == undefined || TiposPost == null)
       throw new boom.notFound(TIPOS_POST_NOT_FOUND_MSG + TiposPostId);
-  
+
+    const { nombre } = changes;
+
+    if (nombre != null && nombre != undefined) {
+      const existsName = await TiposPostModel.findOne({
+        nombre: nombre,
+      });
+
+      if (existsName && existsName._id != TiposPostId) {
+        throw boom.unauthorized('There is already a Post Type with that name');
+      }
+    }
+
     let oldTiposPost = {
-        nombre: TiposPost.nombre,
-        color: TiposPost.color,
+      nombre: TiposPost.nombre,
+      color: TiposPost.color,
     };
-  
-    const {nombre, color} = changes;
+
+    const { color } = changes;
     TiposPost.nombre = nombre || TiposPost.nombre;
     TiposPost.color = color || TiposPost.color;
-   
+
     TiposPost.save();
-  
+
     return {
       old: oldTiposPost,
-      changed: TiposPost
-    }
+      changed: TiposPost,
+    };
   }
 
-  async delete(TiposPostId){
-
+  async delete(TiposPostId) {
     let TiposPost = await TiposPostModel.findOne({
-      _id: TiposPostId
+      _id: TiposPostId,
     });
-  
-    const {deletedCount} = await TiposPostModel.deleteOne({
-      _id: TiposPostId
-    })
-  
-    if(deletedCount <= 0)
+
+    const { deletedCount } = await TiposPostModel.deleteOne({
+      _id: TiposPostId,
+    });
+
+    if (deletedCount <= 0)
       throw new boom.notFound(NOT_FOUND_COLL_MSG + TiposPost);
-  
+
     return TiposPost;
-  
   }
 
-  async getAll(limit, filter){
+  async getAll(limit, filter) {
     let TiposPost = await TiposPostModel.find(filter);
-  
-    if(!TiposPost)
-      throw boom.notFound(NOT_FOUND_COLL_MSG);
-    else if(TiposPost.length <= 0)
+
+    if (!TiposPost) throw boom.notFound(NOT_FOUND_COLL_MSG);
+    else if (TiposPost.length <= 0)
       throw boom.notFound(NO_TIPOS_POST_REGISTERED_MSG);
-  
-      TiposPost = limit ? TiposPost.filter((item, index) => item && index < limit) : TiposPost;
-  
-    return TiposPost;
-  }
-  
-  async getById(TiposPostId){
-    let TiposPost = await TiposPostModel.findOne({
-      _id: TiposPostId
-    });
-  
-    if(TiposPost == undefined || TiposPost == null)
-      throw new boom.notFound(TIPOS_POST_NOT_FOUND_MSG + TiposPostId);
-  
+
+    TiposPost = limit
+      ? TiposPost.filter((item, index) => item && index < limit)
+      : TiposPost;
+
     return TiposPost;
   }
 
+  async getById(TiposPostId) {
+    let TiposPost = await TiposPostModel.findOne({
+      _id: TiposPostId,
+    });
+
+    if (TiposPost == undefined || TiposPost == null)
+      throw new boom.notFound(TIPOS_POST_NOT_FOUND_MSG + TiposPostId);
+
+    return TiposPost;
+  }
 }
 
 module.exports = TiposPostService;
