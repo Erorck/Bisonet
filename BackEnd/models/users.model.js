@@ -17,7 +17,7 @@ const userSchema = new Schema({
     unique: true,
   },
   career_especialty: {
-    type: ['Programación', '3D', '2D', 'Video', 'Tronco común'],
+    type: ['Programación', '3D', '2D', 'Video', 'Arte', 'Tronco común'],
     default: 'Tronco común',
   },
   current_semester: { type: Number, default: 1, min: 1, max: 10 },

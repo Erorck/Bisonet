@@ -1,5 +1,9 @@
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = process.env.JWT_SECRET;
+require('dotenv').config();
+//const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlJvYmVydG8iLCJpYXQiOjE1MTYyMzkwMjJ9.sJjmNblu1hQQN02Ji6RjYCFwfyEqu5psa7g7nZ8YXuw';
+
 const signToken = async (user) => {
   const signToken = await jwt.sign(
     {
@@ -8,11 +12,12 @@ const signToken = async (user) => {
     },
     JWT_SECRET,
     {
-      expiresIn: '2h',
+      expiresIn: '1h',
     }
   );
   return signToken;
 };
+
 const verifyToken = async (tokenJwt) => {
   try {
     return jwt.verify(tokenJwt, JWT_SECRET);

@@ -28,16 +28,21 @@ const institutional_email = Joi.string().pattern(
   Utilities.REGEX_VALD_EMAIL.pattern,
   Utilities.REGEX_VALD_EMAIL.name
 );
-const career_especialty = Joi.string().valid(
-  'Programación',
-  '3D',
-  '2D',
-  'Video',
-  'Tronco común'
+const career_especialty = Joi.array().items(
+  Joi.string().valid(
+    'Programación',
+    '3D',
+    '2D',
+    'Video',
+    'Arte',
+    'Tronco común'
+  )
 );
 const current_semester = Joi.number().min(1).max(10);
 const profileImage = Joi.string();
-const user_type = Joi.string().valid('Alumno', 'Maestro', 'Administrador');
+const user_type = Joi.array().items(
+  Joi.string().valid('Alumno', 'Maestro', 'Administrador')
+);
 const isActive = Joi.boolean();
 
 const createUserDto = Joi.object({

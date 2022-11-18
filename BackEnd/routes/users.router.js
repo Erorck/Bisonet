@@ -10,27 +10,35 @@ const {
   loginDto,
 } = require('../DTOs/users.dto');
 
-const router = express.Router();
 const { encrypt, compare } = require('../utils/password.handler');
 const { signToken } = require('../utils/jwt.handler');
+const checkRolHandler = require('../middlewares/checkRol.handler');
+const authHandler = require('../middlewares/auth.handler');
+
+const router = express.Router();
 
 //RUTAS GENERALES /
 
 //GET ALL USERS
-router.get('/', async (req, res, next) => {
-  try {
-    const { size } = req.query;
-    const filter = req.body;
-    const users = await service.getAll(size || 10, filter);
-    res.json({
-      success: true,
-      message: 'Users found successfully',
-      Data: users,
-    });
-  } catch (error) {
-    next(error);
+router.get(
+  '/',
+  authHandler,
+  checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
+  async (req, res, next) => {
+    try {
+      const { size } = req.query;
+      const filter = req.body;
+      const users = await service.getAll(size || 10, filter);
+      res.json({
+        success: true,
+        message: 'Users found successfully',
+        Data: users,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 //REGISTER USER
 router.post(
@@ -88,6 +96,8 @@ router.post(
 //GET USER BY ID
 router.get(
   '/:userId',
+  authHandler,
+  checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
   validatorHandler(getUserDto, 'params'),
   async (req, res, next) => {
     try {
@@ -107,13 +117,20 @@ router.get(
 //PARTIALLY UPDATE USER
 router.patch(
   '/:userId',
+  authHandler,
+  checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
   validatorHandler(getUserDto, 'params'),
   validatorHandler(updateUserDto, 'body'),
   async (req, res, next) => {
     try {
       const { userId } = req.params; //Obtener ids
-      const body = req.body;
-      const { old, changed } = await service.update(userId, body);
+      let body = req.body;
+
+      const password =
+        body['password'] == undefined ? null : await encrypt(body['password']);
+      const bodyUpdate = { ...body, password };
+
+      const { old, changed } = await service.update(userId, bodyUpdate);
       res.json({
         success: true,
         message: 'User updated successfully',
@@ -127,18 +144,23 @@ router.patch(
 );
 
 //DELETE USER
-router.delete('/:userId', async (req, res, next) => {
-  try {
-    const { userId } = req.params; //Obtener ids
-    deletedUser = await service.delete(userId);
-    res.json({
-      success: true,
-      message: 'User eliminated successfully',
-      user: deletedUser,
-    });
-  } catch (error) {
-    next(error);
+router.delete(
+  '/:userId',
+  authHandler,
+  checkRolHandler(['Administrador']),
+  async (req, res, next) => {
+    try {
+      const { userId } = req.params; //Obtener ids
+      deletedUser = await service.delete(userId);
+      res.json({
+        success: true,
+        message: 'User eliminated successfully',
+        user: deletedUser,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 module.exports = router;

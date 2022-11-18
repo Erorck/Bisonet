@@ -38,17 +38,12 @@ class UserService {
     //return data;
 
     const newUser = await UserModel.create(data);
-    newUser.set('password', undefined, { strict: true });
+    newUser.set('password', undefined, { strict: false });
     return newUser;
   }
 
   //UPDATE DB USER
   async update(userId, changes) {
-    // var objectIdRegex = new RegExp(Utilities.REGEX_VALD_OBJECT_ID.pattern);
-
-    // if(!objectIdRegex.test())
-    //   throw new boom.badRequest('Id con formato incorrecto');
-
     let user = await UserModel.findOne({
       _id: userId,
     });
@@ -93,6 +88,7 @@ class UserService {
       user_type,
       isActive,
     } = changes;
+
     user.password = password || user.password;
     user.first_name = first_name || user.first_name;
     user.first_last_name = first_last_name || user.first_last_name;

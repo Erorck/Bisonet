@@ -8,29 +8,38 @@ const {
   getCommentDto,
 } = require('../DTOs/comments.dto');
 
+const checkRolHandler = require('../middlewares/checkRol.handler');
+const authHandler = require('../middlewares/auth.handler');
 const router = express.Router();
 
 //RUTAS GENERALES /
 
 //GET ALL COMMENT
-router.get('/', async (req, res, next) => {
-  try {
-    const { size } = req.query;
-    const filter = req.body;
-    const comments = await service.getAll(size || 10, filter);
-    res.json({
-      success: true,
-      message: 'Comments found successfully',
-      Data: comments,
-    });
-  } catch (error) {
-    next(error);
+router.get(
+  '/',
+  authHandler,
+  checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
+  async (req, res, next) => {
+    try {
+      const { size } = req.query;
+      const filter = req.body;
+      const comments = await service.getAll(size || 10, filter);
+      res.json({
+        success: true,
+        message: 'Comments found successfully',
+        Data: comments,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 //CREATE COMMENT
 router.post(
   '/',
+  authHandler,
+  checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
   validatorHandler(createCommentDto, 'body'),
   async (req, res, next) => {
     try {
@@ -52,6 +61,8 @@ router.post(
 //GET COMMENT BY ID
 router.get(
   '/:commentId',
+  authHandler,
+  checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
   validatorHandler(getCommentDto, 'params'),
   async (req, res, next) => {
     try {
@@ -71,6 +82,8 @@ router.get(
 //PARTIALLY UPDATE COMMENT
 router.patch(
   '/:commentId',
+  authHandler,
+  checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
   validatorHandler(getCommentDto, 'params'),
   validatorHandler(updateCommentDto, 'body'),
   async (req, res, next) => {
@@ -91,18 +104,23 @@ router.patch(
 );
 
 //DELETE COMMENT
-router.delete('/:commentId', async (req, res, next) => {
-  try {
-    const { commentId } = req.params; //Obtener ids
-    deletedComment = await service.delete(commentId);
-    res.json({
-      success: true,
-      message: 'Comment eliminated successfully',
-      comment: deletedComment,
-    });
-  } catch (error) {
-    next(error);
+router.delete(
+  '/:commentId',
+  authHandler,
+  checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
+  async (req, res, next) => {
+    try {
+      const { commentId } = req.params; //Obtener ids
+      deletedComment = await service.delete(commentId);
+      res.json({
+        success: true,
+        message: 'Comment eliminated successfully',
+        comment: deletedComment,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 module.exports = router;
