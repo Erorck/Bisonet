@@ -57,7 +57,7 @@ class sectionService {
     const { isActive } = changes;
     section.nombre = nombre || section.nombre;
 
-    section.isActive = isActive || section.isActive;
+    section.isActive = isActive === undefined ? photos.isActive : isActive;
     section.save();
 
     return {

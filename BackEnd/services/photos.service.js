@@ -31,17 +31,14 @@ class PhotosService {
 
     let oldPhotos = {
       post: photos.post,
-      content: photos.content,
+      file_name: photos.file_name,
       Fecha_Publicacion: photos.Fecha_Publicacion,
       isActive: photos.isActive,
     };
 
-    const { post, content, Fecha_Publicacion, isActive } = changes;
-    photos.post = post || photos.post;
-    photos.content = content || photos.content;
-    photos.Fecha_Publicacion = Fecha_Publicacion || photos.Fecha_Publicacion;
+    const { isActive } = changes;
 
-    photos.isActive = isActive || photos.isActive;
+    photos.isActive = isActive === undefined ? photos.isActive : isActive;
     photos.save();
 
     return {

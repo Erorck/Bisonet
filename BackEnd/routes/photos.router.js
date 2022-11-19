@@ -2,6 +2,7 @@ const express = require('express');
 var faker = require('faker');
 const PhotosService = require('../services/photos.service');
 const service = new PhotosService();
+
 const validatorHandler = require('../middlewares/validator.handler');
 const {
   createPhotoDto,
@@ -11,8 +12,11 @@ const {
 
 const checkRolHandler = require('../middlewares/checkRol.handler');
 const authHandler = require('../middlewares/auth.handler');
+const { uploadMiddleware } = require('../utils/storage.handler');
 
 const router = express.Router();
+
+const { PUBLIC_URL } = require('../const.json');
 
 router.get(
   '/get/photos',
@@ -35,9 +39,9 @@ router.get(
 
 router.get(
   '/get/photos/:photoId',
-  validatorHandler(getPhotoDto, 'params'),
   authHandler,
   checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
+  validatorHandler(getPhotoDto, 'params'),
   async (req, res, next) => {
     try {
       const { photoId } = req.params; //Obtener ids
@@ -54,18 +58,35 @@ router.get(
 );
 
 router.post(
-  '/create/photos/',
-  validatorHandler(createPhotoDto, 'body'),
+  '/create/photos/:postId',
   authHandler,
   checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
-  async (req, res) => {
+  //validatorHandler(createPhotoDto, 'body'),
+  uploadMiddleware.single('file'),
+  async (req, res, next) => {
     try {
-      const body = req.body;
-      const photos = await service.create(body); //Para updates y creates
+      const { body, file } = req;
+      const { postId } = req.params;
+
+      const photoBody = {
+        ...body,
+        post: postId,
+        file_name: file.filename,
+        path: file.path,
+        original_name: file.original_name,
+      };
+
+      const photos = await service.create(photoBody); //Para updates y creates
+      const fileData = {
+        file_name: file.filename,
+        url: `${PUBLIC_URL}/${file.filename}`,
+        data: photos,
+      };
+
       res.json({
         success: true, //Validaciones FrontEnd
-        message: 'photos created successfully', //Mostrar al usuario
-        Data: photos, //Desplegar información en algún formato
+        message: `Image created successfully - ${file['filename']}`, //Mostrar al usuario
+        data: fileData, //Desplegar información en algún formato
       });
     } catch (error) {
       next(error);

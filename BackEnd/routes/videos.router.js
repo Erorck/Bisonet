@@ -2,6 +2,7 @@ const express = require('express');
 var faker = require('faker');
 const VideosService = require('../services/videos.service');
 const service = new VideosService();
+
 const validatorHandler = require('../middlewares/validator.handler');
 const {
   createVideoDto,
@@ -11,7 +12,11 @@ const {
 
 const checkRolHandler = require('../middlewares/checkRol.handler');
 const authHandler = require('../middlewares/auth.handler');
+const { uploadMiddleware } = require('../utils/storage.handler');
+
 const router = express.Router();
+
+const { PUBLIC_URL } = require('../const.json');
 
 router.get(
   '/get/videos',
@@ -53,18 +58,35 @@ router.get(
 );
 
 router.post(
-  '/create/videos/',
+  '/create/videos/:postId',
   authHandler,
   checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
-  validatorHandler(createVideoDto, 'body'),
-  async (req, res) => {
+  //validatorHandler(createVideoDto, 'body'),
+  uploadMiddleware.single('file'),
+  async (req, res, next) => {
     try {
-      const body = req.body;
-      const videos = await service.create(body); //Para updates y creates
+      const { body, file } = req;
+      const { postId } = req.params;
+
+      const videoBody = {
+        ...body,
+        post: postId,
+        file_name: file.filename,
+        path: file.path,
+        original_name: file.original_name,
+      };
+
+      const videos = await service.create(videoBody); //Para updates y creates
+      const fileData = {
+        file_name: file.filename,
+        url: `${PUBLIC_URL}/${file.filename}`,
+        data: videos,
+      };
+
       res.json({
         success: true, //Validaciones FrontEnd
-        message: 'videos created successfully', //Mostrar al usuario
-        Data: videos, //Desplegar información en algún formato
+        message: `Image created successfully - ${file['filename']}`, //Mostrar al usuario
+        Data: fileData, //Desplegar información en algún formato
       });
     } catch (error) {
       next(error);

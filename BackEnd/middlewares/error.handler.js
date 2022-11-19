@@ -1,9 +1,8 @@
-
 const logErrors = (err, req, res, next) => {
   // eslint-disable-next-line no-console
   console.error(err);
   next(err);
-}
+};
 
 //Handler for server error
 const errorHandler = (err, req, res) => {
@@ -23,7 +22,4 @@ const boomErrorHandler = (err, req, res, next) => {
   next(err);
 };
 
-
-
-
-module.exports = { logErrors, boomErrorHandler, errorHandler};
+module.exports = { logErrors, boomErrorHandler, errorHandler };
