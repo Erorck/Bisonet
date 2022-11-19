@@ -25,9 +25,8 @@ class CoursesService {
       throw boom.unauthorized('There is already a course with that name');
     }
 
-    const newCourse = new CourseModel(data);
-    await newCourse.save();
-    return data;
+    const newCourse = await CourseModel.create(data);
+    return newCourse;
   }
 
   //UPDATE DB COURSE

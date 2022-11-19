@@ -25,7 +25,6 @@ const createCourseDto = Joi.object({
   career_especialty: career_especialty.required(),
   groups: groups,
   semester: semester.required(),
-  isActive: isActive.required(),
 });
 
 const updateCourseDto = Joi.object({

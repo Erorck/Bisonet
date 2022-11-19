@@ -6,9 +6,7 @@ const uuidVideo = Joi.string().pattern(
   Utilities.REGEX_VALD_OBJECT_ID.pattern,
   Utilities.REGEX_VALD_OBJECT_ID.name
 );
-const VideoId = Joi.number().min(1500000).max(2500000);
-const video = Joi.string();
-const upload_date = Joi.date();
+
 const id_post = Joi.string().pattern(
   Utilities.REGEX_VALD_OBJECT_ID.pattern,
   Utilities.REGEX_VALD_OBJECT_ID.name

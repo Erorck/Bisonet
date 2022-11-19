@@ -25,7 +25,8 @@ router.get(
   async (req, res, next) => {
     try {
       const { size } = req.query;
-      const photos = await service.getAll(size || 10);
+      const filter = req.body;
+      const photos = await service.getAll(size || 10, filter);
       res.json({
         success: true,
         message: 'photos found successfully',
@@ -48,7 +49,8 @@ router.get(
       const photos = await service.getById(photoId);
       res.json({
         success: true,
-        message: 'photos found successfully',
+        message: 'photo found successfully',
+        url: `${PUBLIC_URL}/${photos.file_name}`,
         Data: photos,
       });
     } catch (error) {
@@ -107,7 +109,8 @@ router.patch(
       const { old, changed } = await service.update(photoId, body);
       res.json({
         success: true,
-        message: 'photos updated successfully',
+        message: 'photo updated successfully',
+        url: `${PUBLIC_URL}/${changed.file_name}`,
         Original: old,
         Updated: changed,
       });

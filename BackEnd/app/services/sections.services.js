@@ -24,9 +24,8 @@ class sectionService {
       throw boom.unauthorized('There is already a section with that name');
     }
 
-    const newSection = new SectionsModel(data);
-    await newSection.save();
-    return data;
+    const newSection = await SectionsModel.create(data);
+    return newSection;
   }
 
   async update(sectionId, changes) {
@@ -41,7 +40,7 @@ class sectionService {
 
     if (nombre != null && nombre != undefined) {
       const existsName = await SectionsModel.findOne({
-        institutional_email: nombre,
+        nombre: nombre,
       });
 
       if (existsName && existsName._id != sectionId) {

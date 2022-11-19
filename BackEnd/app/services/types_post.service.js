@@ -23,9 +23,8 @@ class TiposPostService {
       throw boom.unauthorized('There is already a Post Type with that name');
     }
 
-    const newTiposPost = new TiposPostModel(data);
-    await newTiposPost.save();
-    return data;
+    const newTiposPost = await TiposPostModel.create(data);
+    return newTiposPost;
   }
 
   async update(TiposPostId, changes) {

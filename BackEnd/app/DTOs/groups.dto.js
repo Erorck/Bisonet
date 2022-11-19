@@ -1,13 +1,21 @@
 const Joi = require('joi');
-const {Utilities} = require('../services/utilities.services');
+const { Utilities } = require('../services/utilities.services');
 require('dotenv').config();
 
-
 //SCHEMA PARA DATOS REQUERIDOS Y LOGICA DE NEGOCIO
-const objectId = Joi.string().pattern(Utilities.REGEX_VALD_OBJECT_ID.pattern, Utilities.REGEX_VALD_OBJECT_ID.name);
-const group_teacher = Joi.string().pattern(Utilities.REGEX_VALD_OBJECT_ID.pattern, Utilities.REGEX_VALD_OBJECT_ID.name);
+const objectId = Joi.string().pattern(
+  Utilities.REGEX_VALD_OBJECT_ID.pattern,
+  Utilities.REGEX_VALD_OBJECT_ID.name
+);
+const group_teacher = Joi.string().pattern(
+  Utilities.REGEX_VALD_OBJECT_ID.pattern,
+  Utilities.REGEX_VALD_OBJECT_ID.name
+);
 const group_members = Joi.array();
-const course = Joi.string().pattern(Utilities.REGEX_VALD_OBJECT_ID.pattern, Utilities.REGEX_VALD_OBJECT_ID.name);
+const course = Joi.string().pattern(
+  Utilities.REGEX_VALD_OBJECT_ID.pattern,
+  Utilities.REGEX_VALD_OBJECT_ID.name
+);
 const year = Joi.number().min(2010).max(2025);
 const semester = Joi.number().min(1).max(2);
 const posts = Joi.array();
@@ -19,21 +27,18 @@ const createGroupDto = Joi.object({
   course: course.required(),
   year: year.required(),
   semester: semester.required(),
-  isActive: isActive.required()
 });
 
 const updateGroupDto = Joi.object({
   group_teacher: group_teacher,
   group_members: group_members,
   course: course,
-  year: year,
-  semester: semester,
   posts: posts,
-  isActive: isActive
+  isActive: isActive,
 });
 
 const getGroupDto = Joi.object({
-  groupId: objectId.required()
+  groupId: objectId.required(),
 });
 
 module.exports = {

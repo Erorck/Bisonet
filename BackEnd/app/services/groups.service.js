@@ -1,6 +1,7 @@
 const faker = require('faker');
 const GroupModel = require('../models/groups.model');
 const CourseModel = require('../models/courses.model');
+const UserModel = require('../models/users.model');
 const boom = require('@hapi/boom');
 
 const NOT_FOUND_COLL_MSG = "Collection doesn't exists";
@@ -22,13 +23,26 @@ class GroupsService {
       course: data.course,
       year: data.year,
       semester: data.semester,
+      group_teacher: data.group_teacher,
     });
 
-    if (existsGroup) {
-      const groupCourse = await CourseModel.findOne({
-        _id: data.course,
-      });
+    const groupCourse = await CourseModel.findOne({
+      _id: data.course,
+    });
 
+    if (!groupCourse) {
+      throw boom.notFound('Course doesnt exists');
+    }
+
+    const groupTeacher = await UserModel.findOne({
+      _id: data.group_teacher,
+    });
+
+    if (!groupTeacher) {
+      throw boom.notFound('Teacher doesnt exists');
+    }
+
+    if (existsGroup) {
       const monthPeriod =
         existsGroup.semester == 1 ? 'Enero-Junio' : 'Agosto-Diciembre';
 
@@ -39,17 +53,22 @@ class GroupsService {
           monthPeriod +
           ' ' +
           existsGroup.year +
-          ' period'
+          ' period managed by the teacher ' +
+          groupTeacher.first_name +
+          ' ' +
+          groupTeacher.first_last_name +
+          ' ' +
+          groupTeacher.second_last_name
       );
     }
 
-    const newGroup = new GroupModel(data);
-    await newGroup.save();
-    return data;
+    const newGroup = await GroupModel.create(data);
+    return newGroup;
   }
 
   //UPDATE DB GROUP
   async update(groupId, changes) {
+    //Validamos que exista el grupo a editar
     let group = await GroupModel.findOne({
       _id: groupId,
     });
@@ -57,17 +76,40 @@ class GroupsService {
     if (group == undefined || group == null)
       throw new boom.notFound(GROUP_NOT_FOUND_MSG + groupId);
 
-    const { course, year, semester } = changes;
+    //Validamos si existe el maestro y el grupo que se quieren asignar
+    const { course, group_teacher } = changes;
 
-    const existsGroup = await GroupModel.findOne({
-      course: course,
-      year: year,
-      semester: semester,
+    //Validar maestro nuevo
+    const groupTeacher = await UserModel.findOne({
+      _id: group_teacher === undefined ? group.group_teacher : group_teacher,
     });
 
+    if (!groupTeacher) {
+      throw boom.notFound('Teacher doesnt exists');
+    }
+
+    //Validar materia nueva
+    const groupCourse = await CourseModel.findOne({
+      _id: course === undefined ? group.course : course,
+    });
+
+    if (!groupCourse) {
+      throw boom.notFound('Course doesnt exists');
+    }
+
+    //Validar si no existe un grupo con el mismo maestro, con la mimsa materia y en el mismo periodo.
+    const existsGroup = await GroupModel.findOne({
+      course: course === undefined ? group.course : course,
+      year: group.year,
+      semester: group.semester,
+      group_teacher:
+        group_teacher === undefined ? group.group_teacher : group_teacher,
+    });
+
+    //Si existe y su id no es igual al que estamos modificando, mostramos un error
     if (existsGroup && existsGroup._id != groupId) {
       const groupCourse = await CourseModel.findOne({
-        _id: changes.course,
+        _id: course,
       });
 
       const monthPeriod =
@@ -80,7 +122,12 @@ class GroupsService {
           monthPeriod +
           ' ' +
           existsGroup.year +
-          ' period'
+          ' period managed by the teacher ' +
+          groupTeacher.first_name +
+          ' ' +
+          groupTeacher.first_last_name +
+          ' ' +
+          groupTeacher.second_last_name
       );
     }
 
@@ -94,14 +141,12 @@ class GroupsService {
       isActive: group.isActive,
     };
 
-    const { group_teacher, group_members, posts, isActive } = changes;
+    const { group_members, posts, isActive } = changes;
     group.group_teacher = group_teacher || group.group_teacher;
 
     if (group_members != undefined) group.group_members = [...group_members];
 
     group.course = course || group.course;
-    group.year = year || group.year;
-    group.semester = semester || group.semester;
 
     if (posts != undefined) group.posts = [...posts];
 

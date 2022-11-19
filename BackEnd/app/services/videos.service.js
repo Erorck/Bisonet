@@ -15,9 +15,8 @@ class VideosService {
   //DB METHODS-----------------------------------------
 
   async create(data) {
-    const newVideos = new VideosModel(data);
-    await newVideos.save();
-    return data;
+    const newVideos = await VideosModel.create(data);
+    return newVideos;
   }
 
   async update(VideosId, changes) {

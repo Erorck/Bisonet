@@ -15,9 +15,8 @@ class postService {
   //DB METHODS-----------------------------------------
 
   async create(data) {
-    const newPost = new PostModel(data);
-    await newPost.save();
-    return data;
+    const newPost = await PostModel.create(data);
+    return newPost;
   }
 
   async update(PostId, changes) {
@@ -41,26 +40,19 @@ class postService {
       isActive: Post.isActive,
     };
 
-    const {
-      Autor,
-      Seccion,
-      Type,
-      Group,
-      Title,
-      Content,
-      Fecha_Publicacion,
-      Fecha_Modificacion,
-      Likes,
-      isActive,
-    } = changes;
+    const { Autor, Seccion, Type, Group, Title, Content, Likes, isActive } =
+      changes;
     Post.Autor = Autor || Post.Autor;
     Post.Seccion = Seccion || Post.Seccion;
     Post.Type = Type || Post.Type;
     Post.Group = Group || Post.Group;
     Post.Title = Title || Post.Title;
     Post.Content = Content || Post.Content;
-    Post.Fecha_Publicacion = Fecha_Publicacion || Post.Fecha_Publicacion;
-    Post.Fecha_Modificacion = Fecha_Modificacion || Post.Fecha_Modificacion;
+
+    let mod_date = new Date();
+    Post.Fecha_Modificacion = mod_date;
+    console.log(mod_date.toLocaleString());
+
     Post.Likes = isActive === undefined ? Post.Likes : Likes;
 
     Post.isActive = isActive === undefined ? Post.isActive : isActive;

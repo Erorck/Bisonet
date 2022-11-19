@@ -17,9 +17,8 @@ class CommentsService {
 
   //CREATE DB COMMENT
   async create(data) {
-    const newComment = new CommentModel(data);
-    await newComment.save();
-    return data;
+    const newComment = await CommentModel.create(data);
+    return newComment;
   }
 
   //UPDATE DB COMMENT

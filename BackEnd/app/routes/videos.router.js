@@ -25,7 +25,8 @@ router.get(
   async (req, res, next) => {
     try {
       const { size } = req.query;
-      const videos = await service.getAll(size || 10);
+      const filter = req.body;
+      const videos = await service.getAll(size || 10, filter);
       res.json({
         success: true,
         message: 'videos found successfully',
@@ -48,7 +49,8 @@ router.get(
       const videos = await service.getById(idVideo);
       res.json({
         success: true,
-        message: 'videos found successfully',
+        message: 'video found successfully',
+        url: `${PUBLIC_URL}/${videos.file_name}`,
         Data: videos,
       });
     } catch (error) {
@@ -107,7 +109,8 @@ router.patch(
       const { old, changed } = await service.update(idVideo, body);
       res.json({
         success: true,
-        message: 'videos updated successfully',
+        message: 'video updated successfully',
+        url: `${PUBLIC_URL}/${changed.file_name}`,
         Original: old,
         Updated: changed,
       });

@@ -16,9 +16,8 @@ class PhotosService {
 
   //CREATE DB PHOTOS
   async create(data) {
-    const newPhotos = new PhotosModel(data);
-    await newPhotos.save();
-    return data;
+    const newPhotos = await PhotosModel.create(data);
+    return newPhotos;
   }
 
   async update(photosId, changes) {
