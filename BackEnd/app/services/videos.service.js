@@ -37,7 +37,7 @@ class VideosService {
 
     const { isActive } = changes;
 
-    videos.isActive = isActive === undefined ? photos.isActive : isActive;
+    videos.isActive = isActive === undefined ? videos.isActive : isActive;
     videos.save();
 
     return {

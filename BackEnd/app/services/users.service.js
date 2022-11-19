@@ -98,7 +98,7 @@ class UserService {
     user.current_semester = current_semester || user.current_semester;
     user.profileImage = profileImage || user.profileImage;
     user.user_type = user_type || user.user_type;
-    user.isActive = isActive === undefined ? photos.isActive : isActive;
+    user.isActive = isActive === undefined ? user.isActive : isActive;
     user.save();
 
     return {

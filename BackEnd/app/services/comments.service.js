@@ -48,7 +48,7 @@ class CommentsService {
     comment.modification_date = mod_date;
     console.log(mod_date.toLocaleString());
 
-    comment.isActive = isActive === undefined ? photos.isActive : isActive;
+    comment.isActive = isActive === undefined ? comment.isActive : isActive;
     comment.save();
 
     return {

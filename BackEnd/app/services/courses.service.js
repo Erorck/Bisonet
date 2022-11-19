@@ -66,7 +66,7 @@ class CoursesService {
 
     if (groups != undefined) course.groups = [...groups];
 
-    course.isActive = isActive === undefined ? photos.isActive : isActive;
+    course.isActive = isActive === undefined ? course.isActive : isActive;
     course.save();
 
     return {

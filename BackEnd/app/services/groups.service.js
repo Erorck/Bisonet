@@ -105,7 +105,7 @@ class GroupsService {
 
     if (posts != undefined) group.posts = [...posts];
 
-    group.isActive = isActive === undefined ? photos.isActive : isActive;
+    group.isActive = isActive === undefined ? group.isActive : isActive;
     group.save();
 
     return {

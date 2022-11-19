@@ -63,7 +63,7 @@ class postService {
     Post.Fecha_Modificacion = Fecha_Modificacion || Post.Fecha_Modificacion;
     Post.Likes = isActive === undefined ? Post.Likes : Likes;
 
-    Post.isActive = isActive === undefined ? photos.isActive : isActive;
+    Post.isActive = isActive === undefined ? Post.isActive : isActive;
     Post.save();
 
     return {

@@ -16,7 +16,7 @@ const { uploadMiddleware } = require('../utils/storage.handler');
 
 const router = express.Router();
 
-const { PUBLIC_URL } = require('../const.json');
+const { PUBLIC_URL } = require('../../const.json');
 
 router.get(
   '/get/videos',

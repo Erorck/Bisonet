@@ -1,12 +1,12 @@
 require('dotenv').config();
 const express = require('express');
-const routerApi = require('./routes');
+const routerApi = require('./app/routes');
 const cors = require('cors');
 const {
   logErrors,
   boomErrorHandler,
   errorHandler,
-} = require('./middlewares/error.handler');
+} = require('./app/middlewares/error.handler');
 
 const db = require('./db');
 const { DBCONNECTION } = require('./const.json');
@@ -33,7 +33,7 @@ app.use(
   )
 );
 
-app.use(express.static('./storage')); //Sacarlos Recursos estaticos de esta carpeta
+app.use(express.static('./app/storage')); //Sacarlos Recursos estaticos de esta carpeta
 
 routerApi(app); //Rutas de nuestras entidades
 //Middlewares - Manejo de errores y validaciones
