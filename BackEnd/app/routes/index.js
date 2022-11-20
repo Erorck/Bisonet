@@ -3,16 +3,12 @@ const usersRouter = require('./users.router');
 const coursesRouter = require('./courses.router');
 const groupsRouter = require('./groups.router');
 const postRouter = require('./post.router');
-// const evCulturalRouter = require('./Eventos_culturales.router');
-// const evDeportivoRouter = require('./Eventos_deportivos.router');
-// const notComunicadosRouter = require('./Noticias_comunicados.router');
-// const notConvocatoriaRouter = require('./Noticias_convocatoria.router');
-// const notTramitesRouter = require('./Noticias_tramites.router');
 const commentsRouter = require('./comments.router');
 const photosRouter = require('./photos.router');
 const videosRouter = require('./videos.router');
 const sectionsRouter = require('./sections.router');
 const postTypesRouter = require('./Tipos_post.router');
+const reactionsRouter = require('./reactions.router');
 
 const routerApi = (app) => {
   const router = express.Router();
@@ -27,6 +23,7 @@ const routerApi = (app) => {
   router.use('/comments', commentsRouter);
   router.use('/sections', sectionsRouter);
   router.use('/tipos_post', postTypesRouter);
+  router.use('/reactions', reactionsRouter);
 };
 
 module.exports = routerApi;

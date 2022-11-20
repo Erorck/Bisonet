@@ -1,10 +1,12 @@
 const faker = require('faker');
+const PostModel = require('../models/posts.model');
 const CommentModel = require('../models/comments.model');
+const UserModel = require('../models/users.model');
 const boom = require('@hapi/boom');
 
 const NOT_FOUND_COLL_MSG = "Collection doesn't exists";
 const NO_COMMENTS_REGISTERED_MSG = 'There are no comments registered';
-const COMMENT_NOT_FOUND_MSG = 'Group not found: ';
+const COMMENT_NOT_FOUND_MSG = 'Comment not found: ';
 
 class CommentsService {
   constructor() {
@@ -17,6 +19,26 @@ class CommentsService {
 
   //CREATE DB COMMENT
   async create(data) {
+    const { author, post } = data;
+
+    //Validar que si exista el post en el que se busca comentar
+    const commentPost = await PostModel.findOne({
+      _id: post,
+    });
+
+    if (!commentPost) {
+      throw boom.notFound('Post doesnt exists');
+    }
+
+    //Validar que si exista el usuario que busca comentar
+    const commentAuthor = await UserModel.findOne({
+      _id: author,
+    });
+
+    if (!commentAuthor) {
+      throw boom.notFound('User doesnt exists');
+    }
+
     const newComment = await CommentModel.create(data);
     return newComment;
   }

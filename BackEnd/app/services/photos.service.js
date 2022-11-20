@@ -1,10 +1,11 @@
 const faker = require('faker');
 const boom = require('@hapi/boom');
 const PhotosModel = require('../models/photos_post.model');
+const PostModel = require('../models/posts.model');
 
 const NOT_FOUND_COLL_MSG = "Collection doesn't exists";
 const NO_PHOTOS_REGISTERED_MSG = 'There are no photos registered';
-const PHOTOS_NOT_FOUND_MSG = 'Photos not found: ';
+const PHOTOS_NOT_FOUND_MSG = 'Photo not found: ';
 
 class PhotosService {
   constructor() {
@@ -16,6 +17,17 @@ class PhotosService {
 
   //CREATE DB PHOTOS
   async create(data) {
+    const { post } = data;
+
+    //Validar que exista el post al que se agregará la imagen
+    const photoPost = await PostModel.findOne({
+      _id: post,
+    });
+
+    if (!photoPost) {
+      throw boom.notFound('Post doesnt exists');
+    }
+
     const newPhotos = await PhotosModel.create(data);
     return newPhotos;
   }

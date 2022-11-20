@@ -33,10 +33,6 @@ class UserService {
       throw boom.unauthorized('There is already a user with that id');
     }
 
-    //const newUser = new UserModel(data);
-    //await newUser.save();
-    //return data;
-
     const newUser = await UserModel.create(data);
     newUser.set('password', undefined, { strict: false });
     return newUser;

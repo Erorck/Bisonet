@@ -20,16 +20,14 @@ const active = Joi.boolean();
 
 const createPostDto = Joi.object({
   Autor: autor.required(),
-  Seccion: section.required(),
-  Type: post_type.required(),
+  Seccion: section,
+  Type: post_type,
   Group: group,
   Title: Title.required(),
   Content: Content.required(),
-  Likes: Likes,
 });
 
 const updatePostDto = Joi.object({
-  Seccion: section,
   Title: Title,
   Content: Content,
   isActive: active,

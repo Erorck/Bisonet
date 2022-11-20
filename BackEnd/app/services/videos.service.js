@@ -1,10 +1,11 @@
 const faker = require('faker');
 const boom = require('@hapi/boom');
 const VideosModel = require('../models/videos_post.model');
+const PostModel = require('../models/posts.model');
 
 const NOT_FOUND_COLL_MSG = "Collection doesn't exists";
 const NO_VIDEOS_REGISTERED_MSG = 'There are no videos registered';
-const VIDEOS_NOT_FOUND_MSG = 'Videos not found: ';
+const VIDEOS_NOT_FOUND_MSG = 'Video not found: ';
 
 class VideosService {
   constructor() {
@@ -15,6 +16,17 @@ class VideosService {
   //DB METHODS-----------------------------------------
 
   async create(data) {
+    const { post } = data;
+
+    //Validar que exista el post al que se agregará la imagen
+    const videoPost = await PostModel.findOne({
+      _id: post,
+    });
+
+    if (!videoPost) {
+      throw boom.notFound('Post doesnt exists');
+    }
+
     const newVideos = await VideosModel.create(data);
     return newVideos;
   }
@@ -82,72 +94,6 @@ class VideosService {
       throw new boom.notFound(VIDEOS_NOT_FOUND_MSG + videosId);
 
     return videos;
-  }
-
-  //FAKER METHODS--------------------------------------
-  Fakegenerate() {
-    const limit = 10;
-    for (let index = 0; index < limit; index++) {
-      this.video.push({
-        idVideo: faker.datatype.uuid(),
-        video: faker.image.image(),
-        fecha: faker.date.past(),
-        id_post: faker.datatype.uuid(),
-        active: faker.datatype.boolean(),
-      });
-    }
-  }
-
-  Fakecreate(data) {
-    const newvideo = {
-      idVideo: faker.datatype.uuid(),
-      ...data, //MEZCLAR EL ID CON TODO LO DE DATA
-    };
-    this.video.push(newvideo);
-    return newvideo;
-  }
-
-  Fakeupdate(id, changes) {
-    //const nId = parseInt(id);
-    const index = this.video.findIndex((item) => item.idVideo === id);
-    if (index === -1) throw new boom.notFound('video not found: ' + id);
-
-    var currentvideo = this.video[index];
-    this.video[index] = {
-      ...currentvideo,
-      ...changes,
-    };
-    return {
-      old: currentvideo,
-      changed: this.video[index],
-    };
-  }
-
-  Fakedelete(id) {
-    //const nId = parseInt(id);
-    const index = this.video.findIndex((item) => item.idVideo === id);
-    if (index === -1) throw new boom.notFound('videos not found: ' + id);
-
-    var currentvideo = this.video[index];
-    this.video.splice(index, 1);
-
-    return currentvideo;
-  }
-
-  FakegetAll(size) {
-    const video = this.video.filter((item, index) => item && index < size);
-    if (!video) throw boom.notFound('Collection doesn´t exists');
-    else if (video.length <= 0)
-      throw boom.notFound('There are no video registered');
-
-    return video;
-  }
-
-  FakegetById(id) {
-    //const nId = parseInt(id);
-    const video = this.video.find((item) => item && item.idVideo === id);
-    if (!video) throw new boom.notFound('video not found: ' + id);
-    return video;
   }
 }
 

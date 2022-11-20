@@ -3,8 +3,8 @@ const boom = require('@hapi/boom');
 const TiposPostModel = require('../models/tipos_post.model');
 
 const NOT_FOUND_COLL_MSG = "Collection doesn't exists";
-const NO_TIPOS_POST_REGISTERED_MSG = 'There are no post registered';
-const TIPOS_POST_NOT_FOUND_MSG = 'Post not found: ';
+const NO_TIPOS_POST_REGISTERED_MSG = 'There are no post types registered';
+const TIPOS_POST_NOT_FOUND_MSG = 'Post type not found: ';
 
 class TiposPostService {
   constructor() {

@@ -21,7 +21,8 @@ router.get(
   async (req, res, next) => {
     try {
       const { size } = req.query;
-      const tiposPost = await service.getAll(size || 10);
+      const filter = req.body;
+      const tiposPost = await service.getAll(size || 10, filter);
       res.json({
         success: true,
         message: 'tipos post found successfully',

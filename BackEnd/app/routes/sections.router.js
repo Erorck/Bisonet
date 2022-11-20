@@ -20,7 +20,8 @@ router.get(
   async (req, res, next) => {
     try {
       const { size } = req.query;
-      const sections = await Service.getAll(size || 10);
+      const filter = req.body;
+      const sections = await Service.getAll(size || 10, filter);
       res.json({
         success: true,
         message: 'Sections found successfully',
