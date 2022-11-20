@@ -40,6 +40,16 @@ class CommentsService {
     }
 
     const newComment = await CommentModel.create(data);
+
+    const correctComment = await CommentModel.findOne({
+      _id: newComment._id,
+    });
+
+    console.log(correctComment);
+
+    commentPost.Comments.push(correctComment);
+    commentPost.save();
+
     return newComment;
   }
 
@@ -61,6 +71,16 @@ class CommentsService {
       isActive: comment.isActive,
     };
 
+    //Removemos el comentario desactualizado del post
+    const commentPost = await PostModel.findOne({
+      _id: comment.post,
+    });
+
+    console.log(commentPost);
+    console.log(comment);
+    commentPost.Comments.remove(comment);
+
+    //Actualizamos los datos del comentario
     const { content, isActive } = changes;
 
     comment.content = content || comment.content;
@@ -70,7 +90,19 @@ class CommentsService {
     console.log(mod_date.toLocaleString());
 
     comment.isActive = isActive === undefined ? comment.isActive : isActive;
+
     comment.save();
+
+    //Añadimos el comentario actualizado al post
+
+    const correctComment = await CommentModel.findOne({
+      _id: commentId,
+    });
+
+    console.log(correctComment);
+
+    commentPost.Comments.push(correctComment);
+    commentPost.save();
 
     return {
       old: oldComment,
@@ -90,6 +122,16 @@ class CommentsService {
 
     if (deletedCount <= 0)
       throw new boom.notFound(COMMENT_NOT_FOUND_MSG + commentId);
+
+    //Validar que si exista el post en el que se busca comentar
+    const commentPost = await PostModel.findOne({
+      _id: comment.post,
+    });
+
+    console.log(commentPost.Comments);
+    console.log(comment);
+    commentPost.Comments.remove(comment);
+    commentPost.save();
 
     return comment;
   }

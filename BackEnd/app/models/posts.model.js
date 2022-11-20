@@ -14,6 +14,7 @@ const postsSchema = new Schema({
   Content: { type: String },
   Fecha_Publicacion: { type: Date, default: new Date() },
   Fecha_Modificacion: { type: Date, default: new Date() },
+  Comments: { type: Array },
   Likes: { type: Number, default: 0 },
   isActive: { type: Boolean, default: true },
 });

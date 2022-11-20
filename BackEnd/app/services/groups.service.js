@@ -63,6 +63,10 @@ class GroupsService {
     }
 
     const newGroup = await GroupModel.create(data);
+
+    groupCourse.groups.push(newGroup._id);
+    groupCourse.save();
+
     return newGroup;
   }
 
@@ -146,6 +150,18 @@ class GroupsService {
 
     if (group_members != undefined) group.group_members = [...group_members];
 
+    //Eliminamos el grupo del arreglo de grupos de su materia y lo agregamos a la nueva
+    if (groupCourse._id != group.course) {
+      const currentCourse = await CourseModel.findOne({
+        _id: group.course,
+      });
+
+      currentCourse.groups.remove(group._id);
+      groupCourse.groups.push(group._id);
+      groupCourse.save();
+      currentCourse.save();
+    }
+
     group.course = course || group.course;
 
     if (posts != undefined) group.posts = [...posts];
@@ -171,6 +187,13 @@ class GroupsService {
 
     if (deletedCount <= 0)
       throw new boom.notFound(GROUP_NOT_FOUND_MSG + groupId);
+
+    const currentCourse = await CourseModel.findOne({
+      _id: group.course,
+    });
+
+    currentCourse.groups.remove(group._id);
+    currentCourse.save();
 
     return group;
   }

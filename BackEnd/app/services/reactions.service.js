@@ -20,6 +20,17 @@ class CommentsService {
   async create(data) {
     const { user, post } = data;
 
+    const existsReaction = await ReactionModel.findOne({
+      user: user,
+      post: post,
+    });
+
+    if (existsReaction) {
+      throw boom.notFound(
+        'There already exists a reaction for this user on this post'
+      );
+    }
+
     //Validar que si exista el post al que se busca reaccionar
     const reactionPost = await PostModel.findOne({
       _id: post,
@@ -37,6 +48,9 @@ class CommentsService {
     if (!reactionUser) {
       throw boom.notFound('User doesnt exists');
     }
+
+    reactionPost.Likes = reactionPost.Likes + 1;
+    reactionPost.save();
 
     const newReaction = await ReactionModel.create(data);
     return newReaction;
@@ -81,8 +95,18 @@ class CommentsService {
     reaction.modification_date = mod_date;
     console.log(mod_date.toLocaleString());
 
+    let increment = 0;
+
+    if (liked == undefined || liked == reaction.liked) increment = 0;
+    else if (liked === true) increment = 1;
+    else increment = -1;
+
     reaction.liked = liked === undefined ? reaction.liked : liked;
     reaction.save();
+
+    reactionPost.Likes = reactionPost.Likes + increment;
+
+    reactionPost.save();
 
     return {
       old: oldReaction,

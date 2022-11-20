@@ -21,7 +21,7 @@ class postService {
   async create(data) {
     const { Autor, Seccion, Type, Group } = data;
 
-    if ((Type == undefined && Group == undefined) || Seccion == undefined) {
+    if (Group == undefined && (Seccion == undefined || Type == undefined)) {
       throw boom.notFound('Must select a Group or a Section with a Post type');
     }
 
@@ -69,6 +69,17 @@ class postService {
     }
 
     const newPost = await PostModel.create(data);
+    if (Group != undefined) {
+      const groupPost = await GroupModel.findOne({
+        _id: Group,
+      });
+
+      if (groupPost) {
+        groupPost.posts.push(newPost._id);
+        groupPost.save();
+      }
+    }
+
     return newPost;
   }
 
@@ -123,6 +134,15 @@ class postService {
     });
 
     if (deletedCount <= 0) throw new boom.notFound(NOT_FOUND_COLL_MSG + postId);
+
+    if (Post.Group != undefined) {
+      const postGroup = await GroupModel.findOne({
+        _id: Post.Group,
+      });
+
+      postGroup.posts.remove(Post._id);
+      postGroup.save();
+    }
 
     return Post;
   }
