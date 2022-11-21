@@ -103,6 +103,38 @@ class UserService {
     };
   }
 
+  //UPDATE PROFILE IMAGE
+  async updateProfilePic(userId, changes) {
+    let user = await UserModel.findOne({
+      _id: userId,
+    });
+
+    if (user == undefined || user == null)
+      throw new boom.notFound(USER_NOT_FOUND_MSG + userId);
+
+    let oldUser = {
+      userId: user.userId,
+      password: user.password,
+      first_name: user.first_name,
+      first_last_name: user.first_last_name,
+      second_last_name: user.second_last_name,
+      institutional_email: user.institutional_email,
+      career_especialty: user.career_especialty,
+      current_semester: user.current_semester,
+      profileImage: user.profileImage,
+      user_type: user.user_type,
+      isActive: user.isActive,
+    };
+
+    user.profileImage = { ...changes };
+    user.save();
+
+    return {
+      old: oldUser,
+      changed: user,
+    };
+  }
+
   //DELETE DB USER
   async delete(userId) {
     let user = await UserModel.findOne({
@@ -145,7 +177,7 @@ class UserService {
     return user;
   }
 
-  //GET DB USER BY ID
+  //GET DB USER BY EMAIL
   async getByEmail(userEmail) {
     let user = await UserModel.findOne({
       institutional_email: userEmail,

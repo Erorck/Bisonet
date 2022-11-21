@@ -18,6 +18,7 @@ class postService {
 
   //DB METHODS-----------------------------------------
 
+  //CREATE DB POST
   async create(data) {
     const { Autor, Seccion, Type, Group } = data;
 
@@ -83,6 +84,7 @@ class postService {
     return newPost;
   }
 
+  //UPDATE DB POST
   async update(PostId, changes) {
     let Post = await PostModel.findOne({
       _id: PostId,
@@ -98,6 +100,9 @@ class postService {
       Group: Post.Group,
       Title: Post.Title,
       Content: Post.Content,
+      Banner_Image: Post.Banner_Image,
+      Photos: Post.Photos,
+      Videos: Post.Videos,
       Fecha_Publicacion: Post.Fecha_Publicacion,
       Fecha_Modificacion: Post.Fecha_Modificacion,
       Likes: Post.Likes,
@@ -124,6 +129,45 @@ class postService {
     };
   }
 
+  //UPDATE BANNER IMAGE
+  async updateBannerPic(PostId, changes) {
+    let Post = await PostModel.findOne({
+      _id: PostId,
+    });
+
+    if (Post == undefined || Post == null)
+      throw new boom.notFound(POST_NOT_FOUND_MSG + PostId);
+
+    let oldPost = {
+      Autor: Post.Autor,
+      Seccion: Post.Seccion,
+      Type: Post.Type,
+      Group: Post.Group,
+      Title: Post.Title,
+      Content: Post.Content,
+      Banner_Image: Post.Banner_Image,
+      Photos: Post.Photos,
+      Videos: Post.Videos,
+      Fecha_Publicacion: Post.Fecha_Publicacion,
+      Fecha_Modificacion: Post.Fecha_Modificacion,
+      Likes: Post.Likes,
+      isActive: Post.isActive,
+    };
+
+    let mod_date = new Date();
+    Post.Fecha_Modificacion = mod_date;
+    console.log(mod_date.toLocaleString());
+
+    Post.Banner_Image = { ...changes };
+    Post.save();
+
+    return {
+      old: oldPost,
+      changed: Post,
+    };
+  }
+
+  //DELETE DB POST
   async delete(postId) {
     let Post = await PostModel.findOne({
       _id: postId,
@@ -133,7 +177,7 @@ class postService {
       _id: postId,
     });
 
-    if (deletedCount <= 0) throw new boom.notFound(NOT_FOUND_COLL_MSG + postId);
+    if (deletedCount <= 0) throw new boom.notFound(POST_NOT_FOUND_MSG + postId);
 
     if (Post.Group != undefined) {
       const postGroup = await GroupModel.findOne({
@@ -147,6 +191,7 @@ class postService {
     return Post;
   }
 
+  //GET ALL POST DB
   async getAll(limit, filter) {
     let Post = await PostModel.find(filter);
 
@@ -158,6 +203,7 @@ class postService {
     return Post;
   }
 
+  //GET DB POST BY ID
   async getById(postId) {
     let Post = await PostModel.findOne({
       _id: postId,

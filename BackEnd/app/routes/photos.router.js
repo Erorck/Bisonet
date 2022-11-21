@@ -75,7 +75,7 @@ router.post(
         post: postId,
         file_name: file.filename,
         path: file.path,
-        original_name: file.original_name,
+        original_name: file.originalname,
       };
 
       const photos = await service.create(photoBody); //Para updates y creates
@@ -130,7 +130,7 @@ router.delete(
       photos = await service.delete(photoId);
       res.json({
         success: true,
-        message: 'photos eliminated successfully',
+        message: 'photo eliminated successfully',
         comment: photos,
       });
     } catch (error) {

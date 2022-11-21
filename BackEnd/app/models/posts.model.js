@@ -14,6 +14,15 @@ const postsSchema = new Schema({
   Content: { type: String },
   Fecha_Publicacion: { type: Date, default: new Date() },
   Fecha_Modificacion: { type: Date, default: new Date() },
+  Photos: { type: Array },
+  Banner_Image: {
+    type: Object,
+    default: {
+      file_name: 'default-banner-image.png',
+      path: 'D:\\RESPALDO\\ESCUELA\\PW2\\PIA\\Bisonet\\BackEnd\\app\\storage\\default-banner-image.png',
+    },
+  },
+  Videos: { type: Array },
   Comments: { type: Array },
   Likes: { type: Number, default: 0 },
   isActive: { type: Boolean, default: true },

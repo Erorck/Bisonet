@@ -28,8 +28,16 @@ class PhotosService {
       throw boom.notFound('Post doesnt exists');
     }
 
-    const newPhotos = await PhotosModel.create(data);
-    return newPhotos;
+    const newPhoto = await PhotosModel.create(data);
+
+    const correctPhoto = await PhotosModel.findOne({
+      _id: newPhoto._id,
+    });
+
+    photoPost.Photos.push(correctPhoto);
+    photoPost.save();
+
+    return newPhoto;
   }
 
   async update(photosId, changes) {
@@ -50,7 +58,24 @@ class PhotosService {
     const { isActive } = changes;
 
     photos.isActive = isActive === undefined ? photos.isActive : isActive;
-    photos.save();
+    await photos.save();
+
+    //Obtenemos el post de la foto
+    const photosPost = await PostModel.findOne({
+      _id: photos.post,
+    });
+
+    //Obtenemos el comentario desactualizado del post
+    let prevPhoto = photosPost.Photos.find(
+      (element) => element['_id'] == photosId
+    );
+
+    console.log(prevPhoto);
+    photosPost.Photos.remove(prevPhoto); //Removemos el comentario desactualizado del post
+    photosPost.Photos.push(photos); //Añadimos el comentario actualizado al post
+    await photosPost.save();
+
+    console.log(photos);
 
     return {
       old: oldPhotos,
@@ -69,6 +94,13 @@ class PhotosService {
 
     if (deletedCount <= 0)
       throw new boom.notFound(NOT_FOUND_COLL_MSG + photosId);
+
+    const photoPost = await PostModel.findOne({
+      _id: photos.post,
+    });
+
+    photoPost.Photos.remove(photos);
+    photoPost.save();
 
     return photos;
   }

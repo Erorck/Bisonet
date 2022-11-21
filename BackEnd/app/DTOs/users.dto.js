@@ -39,7 +39,7 @@ const career_especialty = Joi.array().items(
   )
 );
 const current_semester = Joi.number().min(1).max(10);
-const profileImage = Joi.string();
+const profileImage = Joi.object();
 const user_type = Joi.array().items(
   Joi.string().valid('Alumno', 'Maestro', 'Administrador')
 );
@@ -56,7 +56,6 @@ const createUserDto = Joi.object({
   current_semester: current_semester,
   profileImage: profileImage,
   user_type: user_type.required(),
-  isActive: isActive.required(),
 });
 
 const updateUserDto = Joi.object({

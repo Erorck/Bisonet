@@ -75,7 +75,7 @@ router.post(
         post: postId,
         file_name: file.filename,
         path: file.path,
-        original_name: file.original_name,
+        original_name: file.originalname,
       };
 
       const videos = await service.create(videoBody); //Para updates y creates

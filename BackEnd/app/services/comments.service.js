@@ -45,8 +45,6 @@ class CommentsService {
       _id: newComment._id,
     });
 
-    console.log(correctComment);
-
     commentPost.Comments.push(correctComment);
     commentPost.save();
 
@@ -71,15 +69,6 @@ class CommentsService {
       isActive: comment.isActive,
     };
 
-    //Removemos el comentario desactualizado del post
-    const commentPost = await PostModel.findOne({
-      _id: comment.post,
-    });
-
-    console.log(commentPost);
-    console.log(comment);
-    commentPost.Comments.remove(comment);
-
     //Actualizamos los datos del comentario
     const { content, isActive } = changes;
 
@@ -91,18 +80,24 @@ class CommentsService {
 
     comment.isActive = isActive === undefined ? comment.isActive : isActive;
 
-    comment.save();
+    await comment.save();
 
-    //Añadimos el comentario actualizado al post
-
-    const correctComment = await CommentModel.findOne({
-      _id: commentId,
+    //Obtenemos el post del comentario
+    const commentPost = await PostModel.findOne({
+      _id: comment.post,
     });
 
-    console.log(correctComment);
+    //Obtenemos el comentario desactualizado del post
+    let prevComment = commentPost.Comments.find(
+      (element) => element['_id'] == commentId
+    );
 
-    commentPost.Comments.push(correctComment);
-    commentPost.save();
+    console.log(prevComment);
+    commentPost.Comments.remove(prevComment); //Removemos el comentario desactualizado del post
+    commentPost.Comments.push(comment); //Añadimos el comentario actualizado al post
+    await commentPost.save();
+
+    console.log(comment);
 
     return {
       old: oldComment,

@@ -6,7 +6,7 @@ const validatorHandler = (dto, prop) => {
     const data = req[prop];
     const { error } = dto.validate(data);
     if (error) next(boom.badRequest(error));
-      next();
+    next();
   };
 };
 

@@ -14,6 +14,7 @@ const { encrypt, compare } = require('../utils/password.handler');
 const { signToken } = require('../utils/jwt.handler');
 const checkRolHandler = require('../middlewares/checkRol.handler');
 const authHandler = require('../middlewares/auth.handler');
+const { uploadMiddleware } = require('../utils/storage.handler');
 
 const router = express.Router();
 
@@ -46,9 +47,11 @@ router.post(
   validatorHandler(createUserDto, 'body'),
   async (req, res, next) => {
     try {
-      const body = req.body;
+      const { body } = req;
+
       const password = await encrypt(body['password']);
-      const bodyInsert = { ...body, password };
+      let bodyInsert = { ...body, password };
+
       const user = await service.create(bodyInsert); //Para updates y creates
       res.json({
         success: true, //Validaciones FrontEnd
@@ -114,6 +117,41 @@ router.get(
   }
 );
 
+//UPDATE PROFILE PICTURE
+router.patch(
+  '/update_prof_pic/:userId',
+  authHandler,
+  checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
+  validatorHandler(getUserDto, 'params'),
+  uploadMiddleware.single('file'),
+  async (req, res, next) => {
+    try {
+      const { userId } = req.params; //Obtener ids
+      const { body, file } = req;
+
+      const photoBody = {
+        ...body,
+        file_name: file.filename,
+        path: file.path,
+        original_name: file.originalname,
+      };
+
+      const { old, changed } = await service.updateProfilePic(
+        userId,
+        photoBody
+      );
+      res.json({
+        success: true,
+        message: 'Profile picture updated successfully',
+        Original: old,
+        Updated: changed,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 //PARTIALLY UPDATE USER
 router.patch(
   '/:userId',
@@ -124,7 +162,7 @@ router.patch(
   async (req, res, next) => {
     try {
       const { userId } = req.params; //Obtener ids
-      let body = req.body;
+      let { body } = req;
 
       const password =
         body['password'] == undefined ? null : await encrypt(body['password']);

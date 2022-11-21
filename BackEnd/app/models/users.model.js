@@ -21,7 +21,13 @@ const userSchema = new Schema({
     default: 'Tronco común',
   },
   current_semester: { type: Number, default: 1, min: 1, max: 10 },
-  profileImage: { type: String },
+  profileImage: {
+    type: Object,
+    default: {
+      file_name: 'default-profile-image.png',
+      path: 'D:\\RESPALDO\\ESCUELA\\PW2\\PIA\\Bisonet\\BackEnd\\app\\storage\\default-profile-image.png',
+    },
+  },
   user_type: {
     type: ['Alumno', 'Maestro', 'Administrador'],
     default: 'Alumno',

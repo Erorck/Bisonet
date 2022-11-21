@@ -11,10 +11,13 @@ const {
 
 const checkRolHandler = require('../middlewares/checkRol.handler');
 const authHandler = require('../middlewares/auth.handler');
+const { uploadMiddleware } = require('../utils/storage.handler');
+
 const router = express.Router();
 
+//GET ALL POST
 router.get(
-  '/get/post',
+  '/get',
   authHandler,
   checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
   async (req, res, next) => {
@@ -33,8 +36,9 @@ router.get(
   }
 );
 
+//GET POST BY ID
 router.get(
-  '/get/post/:postId',
+  '/get/:postId',
   authHandler,
   checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
   validatorHandler(getPostDto, 'params'),
@@ -53,8 +57,9 @@ router.get(
   }
 );
 
+//CREATE POST
 router.post(
-  '/create/post/',
+  '/create',
   authHandler,
   checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
   validatorHandler(createPostDto, 'body'),
@@ -73,8 +78,9 @@ router.post(
   }
 );
 
+//PARTIALLY UPDATE POST
 router.patch(
-  '/update/post/:postId',
+  '/update/:postId',
   authHandler,
   checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
   validatorHandler(getPostDto, 'params'),
@@ -96,8 +102,42 @@ router.patch(
   }
 );
 
+// UPDATE BANNER IMAGE
+router.patch(
+  '/update_banner_image/:postId',
+  authHandler,
+  checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
+  validatorHandler(getPostDto, 'params'),
+  uploadMiddleware.single('file'),
+  async (req, res, next) => {
+    try {
+      const { postId } = req.params; //Obtener ids
+
+      const { body, file } = req;
+
+      const photoBody = {
+        ...body,
+        file_name: file.filename,
+        path: file.path,
+        original_name: file.originalname,
+      };
+
+      const { old, changed } = await service.updateBannerPic(postId, photoBody);
+      res.json({
+        success: true,
+        message: 'banner image updated successfully',
+        Original: old,
+        Updated: changed,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+//DELETE POST
 router.delete(
-  '/delete/post/:postId',
+  '/delete/:postId',
   authHandler,
   checkRolHandler(['Administrador']),
   async (req, res, next) => {

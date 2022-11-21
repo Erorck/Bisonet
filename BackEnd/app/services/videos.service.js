@@ -28,6 +28,14 @@ class VideosService {
     }
 
     const newVideos = await VideosModel.create(data);
+
+    const correctVideo = await VideosModel.findOne({
+      _id: newVideos._id,
+    });
+
+    videoPost.Videos.push(correctVideo);
+    videoPost.save();
+
     return newVideos;
   }
 
@@ -49,7 +57,24 @@ class VideosService {
     const { isActive } = changes;
 
     videos.isActive = isActive === undefined ? videos.isActive : isActive;
-    videos.save();
+    await videos.save();
+
+    //Obtenemos el post de la foto
+    const videoPost = await PostModel.findOne({
+      _id: videos.post,
+    });
+
+    //Obtenemos el comentario desactualizado del post
+    let prevVideo = videoPost.Videos.find(
+      (element) => element['_id'] == VideosId
+    );
+
+    console.log(prevVideo);
+    videoPost.Videos.remove(prevVideo); //Removemos el comentario desactualizado del post
+    videoPost.Videos.push(videos); //Añadimos el comentario actualizado al post
+    await videoPost.save();
+
+    console.log(videos);
 
     return {
       old: oldVideos,
@@ -68,6 +93,13 @@ class VideosService {
 
     if (deletedCount <= 0)
       throw new boom.notFound(NOT_FOUND_COLL_MSG + videosId);
+
+    const videoPost = await PostModel.findOne({
+      _id: videos.post,
+    });
+
+    videoPost.Videos.remove(videos);
+    videoPost.save();
 
     return videos;
   }
