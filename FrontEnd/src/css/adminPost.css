@@ -19,7 +19,7 @@
 }
 
 
-.post .post-img a img {
+.post .post-img img {
     width: 100%;
     height: auto;
     border-radius: 10px;
@@ -116,4 +116,5 @@
 
 .postList {
     height: auto;
+    display: flow-root;
 }
