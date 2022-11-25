@@ -27,7 +27,7 @@ router.get(
       res.json({
         success: true,
         message: 'courses found successfully',
-        Data: courses,
+        data: courses,
       });
     } catch (error) {
       next(error);
@@ -48,7 +48,7 @@ router.post(
       res.json({
         success: true, //Validaciones FrontEnd
         message: 'Course created successfully', //Mostrar al usuario
-        Data: course, //Desplegar información en algún formato
+        data: course, //Desplegar información en algún formato
       });
     } catch (error) {
       next(error);
@@ -71,7 +71,7 @@ router.get(
       res.json({
         success: true,
         message: 'Course found successfully',
-        Data: course,
+        data: course,
       });
     } catch (error) {
       next(error);
@@ -108,6 +108,7 @@ router.delete(
   '/:courseId',
   authHandler,
   checkRolHandler(['Administrador']),
+  validatorHandler(getCourseDto, 'params'),
   async (req, res, next) => {
     try {
       const { courseId } = req.params; //Obtener ids

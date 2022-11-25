@@ -33,7 +33,7 @@ router.get(
       res.json({
         success: true,
         message: 'Users found successfully',
-        Data: users,
+        data: users,
       });
     } catch (error) {
       next(error);
@@ -57,7 +57,7 @@ router.post(
         success: true, //Validaciones FrontEnd
         token: await signToken(user),
         message: 'User created successfully', //Mostrar al usuario
-        Data: user, //Desplegar información en algún formato
+        data: user, //Desplegar información en algún formato
       });
     } catch (error) {
       next(error);
@@ -109,7 +109,7 @@ router.get(
       res.json({
         success: true,
         message: 'User found successfully',
-        Data: user,
+        data: user,
       });
     } catch (error) {
       next(error);
@@ -186,6 +186,7 @@ router.delete(
   '/:userId',
   authHandler,
   checkRolHandler(['Administrador']),
+  validatorHandler(getUserDto, 'params'),
   async (req, res, next) => {
     try {
       const { userId } = req.params; //Obtener ids

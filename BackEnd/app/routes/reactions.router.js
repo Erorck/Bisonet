@@ -27,7 +27,7 @@ router.get(
       res.json({
         success: true,
         message: 'Reactions found successfully',
-        Data: reactions,
+        data: reactions,
       });
     } catch (error) {
       next(error);
@@ -48,7 +48,7 @@ router.post(
       res.json({
         success: true, //Validaciones FrontEnd
         message: 'Reaction created successfully', //Mostrar al usuario
-        Data: reaction, //Desplegar información en algún formato
+        data: reaction, //Desplegar información en algún formato
       });
     } catch (error) {
       next(error);
@@ -71,7 +71,7 @@ router.get(
       res.json({
         success: true,
         message: 'Reaction found successfully',
-        Data: reaction,
+        data: reaction,
       });
     } catch (error) {
       next(error);
@@ -108,6 +108,7 @@ router.delete(
   '/:reactionId',
   authHandler,
   checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
+  validatorHandler(getReactionDto, 'params'),
   async (req, res, next) => {
     try {
       const { reactionId } = req.params; //Obtener ids

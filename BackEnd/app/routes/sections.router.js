@@ -1,5 +1,4 @@
 const express = require('express');
-var faker = require('faker');
 const SectionService = require('../services/sections.services');
 const Service = new SectionService();
 const validatorHandler = require('../middlewares/validator.handler');
@@ -25,7 +24,7 @@ router.get(
       res.json({
         success: true,
         message: 'Sections found successfully',
-        Data: sections,
+        data: sections,
       });
     } catch (error) {
       next(error);
@@ -45,7 +44,7 @@ router.get(
       res.json({
         success: true,
         message: 'Section found successfully',
-        Data: section,
+        data: section,
       });
     } catch (error) {
       next(error);
@@ -65,7 +64,7 @@ router.post(
       res.json({
         success: true, //Validaciones FrontEnd
         message: 'Section created successfully', //Mostrar al usuario
-        Data: section, //Desplegar información en algún formato
+        data: section, //Desplegar información en algún formato
       });
     } catch (error) {
       next(error);
@@ -100,6 +99,7 @@ router.delete(
   '/delete/section/:sectionId',
   authHandler,
   checkRolHandler(['Administrador']),
+  validatorHandler(getSectionDto, 'params'),
   async (req, res, next) => {
     try {
       const { sectionId } = req.params; //Obtener ids

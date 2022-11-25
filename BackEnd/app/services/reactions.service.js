@@ -10,7 +10,6 @@ const REACTION_NOT_FOUND_MSG = 'Reaction not found: ';
 class CommentsService {
   constructor() {
     this.reactions = [];
-    //this.generate_Faker();
   }
 
   //-------------DB METHODS----------------//

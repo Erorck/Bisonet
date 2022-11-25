@@ -1,5 +1,4 @@
 const express = require('express');
-var faker = require('faker');
 const TiposPostService = require('../services/types_post.service');
 const service = new TiposPostService();
 const validatorHandler = require('../middlewares/validator.handler');
@@ -26,7 +25,7 @@ router.get(
       res.json({
         success: true,
         message: 'tipos post found successfully',
-        Data: tiposPost,
+        data: tiposPost,
       });
     } catch (error) {
       next(error);
@@ -47,7 +46,7 @@ router.post(
       res.json({
         success: true, //Validaciones FrontEnd
         message: 'tipos post created successfully', //Mostrar al usuario
-        Data: tiposPost, //Desplegar información en algún formato
+        data: tiposPost, //Desplegar información en algún formato
       });
     } catch (error) {
       next(error);
@@ -68,7 +67,7 @@ router.get(
       res.json({
         success: true,
         message: 'tipos post found successfully',
-        Data: tiposPost,
+        data: tiposPost,
       });
     } catch (error) {
       next(error);
@@ -105,6 +104,7 @@ router.delete(
   '/:TiposPostId',
   authHandler,
   checkRolHandler(['Administrador']),
+  validatorHandler(getTypePostDto, 'params'),
   async (req, res, next) => {
     try {
       const { TiposPostId } = req.params; //Obtener ids

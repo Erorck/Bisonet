@@ -1,4 +1,3 @@
-const faker = require('faker');
 const boom = require('@hapi/boom');
 const PostModel = require('../models/posts.model');
 const SectionsModel = require('../models/sections.model');
@@ -13,7 +12,6 @@ const POST_NOT_FOUND_MSG = 'Post not found: ';
 class postService {
   constructor() {
     this.post = [];
-    //this.generate();
   }
 
   //DB METHODS-----------------------------------------

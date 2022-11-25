@@ -9,6 +9,7 @@ const videosRouter = require('./videos.router');
 const sectionsRouter = require('./sections.router');
 const postTypesRouter = require('./Tipos_post.router');
 const reactionsRouter = require('./reactions.router');
+const reportersRouter = require('./reporter.router');
 
 const routerApi = (app) => {
   const router = express.Router();
@@ -24,6 +25,7 @@ const routerApi = (app) => {
   router.use('/sections', sectionsRouter);
   router.use('/tipos_post', postTypesRouter);
   router.use('/reactions', reactionsRouter);
+  router.use('/reporters', reportersRouter);
 };
 
 module.exports = routerApi;

@@ -1,5 +1,4 @@
 const express = require('express');
-var faker = require('faker');
 const postService = require('../services/post.service');
 const service = new postService();
 const validatorHandler = require('../middlewares/validator.handler');
@@ -28,7 +27,7 @@ router.get(
       res.json({
         success: true,
         message: 'post found successfully',
-        Data: post,
+        data: post,
       });
     } catch (error) {
       next(error);
@@ -49,7 +48,7 @@ router.get(
       res.json({
         success: true,
         message: 'post found successfully',
-        Data: post,
+        data: post,
       });
     } catch (error) {
       next(error);
@@ -70,7 +69,7 @@ router.post(
       res.json({
         success: true, //Validaciones FrontEnd
         message: 'post created successfully', //Mostrar al usuario
-        Data: post, //Desplegar información en algún formato
+        data: post, //Desplegar información en algún formato
       });
     } catch (error) {
       next(error);
@@ -140,6 +139,7 @@ router.delete(
   '/delete/:postId',
   authHandler,
   checkRolHandler(['Administrador']),
+  validatorHandler(getPostDto, 'params'),
   async (req, res, next) => {
     try {
       const { postId } = req.params; //Obtener ids

@@ -1,4 +1,3 @@
-const faker = require('faker');
 const boom = require('@hapi/boom');
 const CourseModel = require('../models/courses.model');
 

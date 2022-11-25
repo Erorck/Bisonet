@@ -27,7 +27,7 @@ router.get(
       res.json({
         success: true,
         message: 'Groups found successfully',
-        Data: groups,
+        data: groups,
       });
     } catch (error) {
       next(error);
@@ -48,7 +48,7 @@ router.post(
       res.json({
         success: true, //Validaciones FrontEnd
         message: 'Group created successfully', //Mostrar al usuario
-        Data: group, //Desplegar información en algún formato
+        data: group, //Desplegar información en algún formato
       });
     } catch (error) {
       next(error);
@@ -61,9 +61,9 @@ router.post(
 //GET GROUP BY ID
 router.get(
   '/:groupId',
-  validatorHandler(getGroupDto, 'params'),
   authHandler,
   checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
+  validatorHandler(getGroupDto, 'params'),
   async (req, res, next) => {
     try {
       const { groupId } = req.params; //Obtener ids
@@ -71,7 +71,7 @@ router.get(
       res.json({
         success: true,
         message: 'Group found successfully',
-        Data: group,
+        data: group,
       });
     } catch (error) {
       next(error);
@@ -108,6 +108,7 @@ router.delete(
   '/:groupId',
   authHandler,
   checkRolHandler(['Administrador']),
+  validatorHandler(getGroupDto, 'params'),
   async (req, res, next) => {
     try {
       const { groupId } = req.params; //Obtener ids

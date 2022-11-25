@@ -1,4 +1,3 @@
-const faker = require('faker');
 const boom = require('@hapi/boom');
 const PhotosModel = require('../models/photos_post.model');
 const PostModel = require('../models/posts.model');
@@ -10,7 +9,6 @@ const PHOTOS_NOT_FOUND_MSG = 'Photo not found: ';
 class PhotosService {
   constructor() {
     this.photos = [];
-    //this.generate();
   }
 
   //BD METHODS-------------------------------------

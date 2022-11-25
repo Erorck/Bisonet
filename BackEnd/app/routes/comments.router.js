@@ -27,7 +27,7 @@ router.get(
       res.json({
         success: true,
         message: 'Comments found successfully',
-        Data: comments,
+        data: comments,
       });
     } catch (error) {
       next(error);
@@ -48,7 +48,7 @@ router.post(
       res.json({
         success: true, //Validaciones FrontEnd
         message: 'Comment created successfully', //Mostrar al usuario
-        Data: comment, //Desplegar información en algún formato
+        data: comment, //Desplegar información en algún formato
       });
     } catch (error) {
       next(error);
@@ -71,7 +71,7 @@ router.get(
       res.json({
         success: true,
         message: 'Comment found successfully',
-        Data: comment,
+        data: comment,
       });
     } catch (error) {
       next(error);
@@ -108,6 +108,7 @@ router.delete(
   '/:commentId',
   authHandler,
   checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
+  validatorHandler(getCommentDto, 'params'),
   async (req, res, next) => {
     try {
       const { commentId } = req.params; //Obtener ids

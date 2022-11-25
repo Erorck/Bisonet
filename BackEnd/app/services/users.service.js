@@ -1,4 +1,3 @@
-const faker = require('faker');
 const boom = require('@hapi/boom');
 const UserModel = require('../models/users.model');
 
@@ -9,7 +8,6 @@ const USER_NOT_FOUND_MSG = 'User not found: ';
 class UserService {
   constructor() {
     this.users = [];
-    //this.generate_Faker();
   }
 
   //-------------DB METHODS----------------//

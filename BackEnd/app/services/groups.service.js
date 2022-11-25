@@ -1,4 +1,3 @@
-const faker = require('faker');
 const GroupModel = require('../models/groups.model');
 const CourseModel = require('../models/courses.model');
 const UserModel = require('../models/users.model');
@@ -11,7 +10,6 @@ const GROUP_NOT_FOUND_MSG = 'Group not found: ';
 class GroupsService {
   constructor() {
     this.groups = [];
-    //this.generate_Faker();
   }
 
   //-------------DB METHODS----------------//
@@ -84,21 +82,25 @@ class GroupsService {
     const { course, group_teacher } = changes;
 
     //Validar maestro nuevo
-    const groupTeacher = await UserModel.findOne({
-      _id: group_teacher === undefined ? group.group_teacher : group_teacher,
-    });
+    if (group_teacher != undefined) {
+      const groupTeacher = await UserModel.findOne({
+        _id: group_teacher === undefined ? group.group_teacher : group_teacher,
+      });
 
-    if (!groupTeacher) {
-      throw boom.notFound('Teacher doesnt exists');
+      if (!groupTeacher) {
+        throw boom.notFound('Teacher doesnt exists');
+      }
     }
 
-    //Validar materia nueva
-    const groupCourse = await CourseModel.findOne({
-      _id: course === undefined ? group.course : course,
-    });
+    if (course != undefined) {
+      //Validar materia nueva
+      const groupCourse = await CourseModel.findOne({
+        _id: course === undefined ? group.course : course,
+      });
 
-    if (!groupCourse) {
-      throw boom.notFound('Course doesnt exists');
+      if (!groupCourse) {
+        throw boom.notFound('Course doesnt exists');
+      }
     }
 
     //Validar si no existe un grupo con el mismo maestro, con la mimsa materia y en el mismo periodo.

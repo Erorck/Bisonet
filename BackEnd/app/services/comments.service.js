@@ -1,4 +1,3 @@
-const faker = require('faker');
 const PostModel = require('../models/posts.model');
 const CommentModel = require('../models/comments.model');
 const UserModel = require('../models/users.model');
@@ -11,7 +10,6 @@ const COMMENT_NOT_FOUND_MSG = 'Comment not found: ';
 class CommentsService {
   constructor() {
     this.comments = [];
-    //this.generate_Faker();
   }
 
   //-------------DB METHODS----------------//

@@ -1,4 +1,3 @@
-const faker = require('faker');
 const boom = require('@hapi/boom');
 const SectionsModel = require('../models/sections.model');
 
@@ -9,7 +8,6 @@ const SECTION_NOT_FOUND_MSG = 'Section not found: ';
 class sectionService {
   constructor() {
     this.sections = [];
-    //this.generate();
   }
 
   //DB METHODS

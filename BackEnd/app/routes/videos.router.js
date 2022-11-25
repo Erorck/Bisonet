@@ -1,5 +1,4 @@
 const express = require('express');
-var faker = require('faker');
 const VideosService = require('../services/videos.service');
 const service = new VideosService();
 
@@ -30,7 +29,7 @@ router.get(
       res.json({
         success: true,
         message: 'videos found successfully',
-        Data: videos,
+        data: videos,
       });
     } catch (error) {
       next(error);
@@ -51,7 +50,7 @@ router.get(
         success: true,
         message: 'video found successfully',
         url: `${PUBLIC_URL}/${videos.file_name}`,
-        Data: videos,
+        data: videos,
       });
     } catch (error) {
       next(error);
@@ -88,7 +87,7 @@ router.post(
       res.json({
         success: true, //Validaciones FrontEnd
         message: `Image created successfully - ${file['filename']}`, //Mostrar al usuario
-        Data: fileData, //Desplegar información en algún formato
+        data: fileData, //Desplegar información en algún formato
       });
     } catch (error) {
       next(error);
@@ -124,6 +123,7 @@ router.delete(
   '/delete/videos/:idVideo',
   authHandler,
   checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
+  validatorHandler(getVideoDto, 'params'),
   async (req, res, next) => {
     try {
       const { idVideo } = req.params; //Obtener ids

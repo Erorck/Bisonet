@@ -1,4 +1,3 @@
-const faker = require('faker');
 const boom = require('@hapi/boom');
 const TiposPostModel = require('../models/tipos_post.model');
 
@@ -9,7 +8,6 @@ const TIPOS_POST_NOT_FOUND_MSG = 'Post type not found: ';
 class TiposPostService {
   constructor() {
     this.tiposPost = [];
-    //this.generate();
   }
 
   //DB METHODS-----------------------------------------

@@ -1,5 +1,4 @@
 const express = require('express');
-var faker = require('faker');
 const PhotosService = require('../services/photos.service');
 const service = new PhotosService();
 
@@ -30,7 +29,7 @@ router.get(
       res.json({
         success: true,
         message: 'photos found successfully',
-        Data: photos,
+        data: photos,
       });
     } catch (error) {
       next(error);
@@ -51,7 +50,7 @@ router.get(
         success: true,
         message: 'photo found successfully',
         url: `${PUBLIC_URL}/${photos.file_name}`,
-        Data: photos,
+        data: photos,
       });
     } catch (error) {
       next(error);
@@ -124,6 +123,7 @@ router.delete(
   '/delete/photos/:photoId',
   authHandler,
   checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
+  validatorHandler(getPhotoDto, 'params'),
   async (req, res, next) => {
     try {
       const { photoId } = req.params; //Obtener ids
