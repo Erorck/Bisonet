@@ -15,7 +15,12 @@ const port = process.env.PORT || 3000;
 
 db(DBCONNECTION);
 
-const whitelist = ['http://localhost:8080', 'https://myapp.co'];
+const whitelist = [
+  'http://localhost:8080',
+  'https://myapp.co',
+  'http://localhost:3000',
+  'https://serene-waters-87032.herokuapp.com',
+];
 const options = {
   origin: (origin, callback) => {
     if (whitelist.includes(origin) || !origin) {

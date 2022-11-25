@@ -9,6 +9,8 @@ const {
   getVideoDto,
 } = require('../DTOs/videos.dto');
 
+const { getPostDto } = require('../DTOs/post.dto');
+
 const checkRolHandler = require('../middlewares/checkRol.handler');
 const authHandler = require('../middlewares/auth.handler');
 const { uploadMiddleware } = require('../utils/storage.handler');
@@ -63,6 +65,7 @@ router.post(
   authHandler,
   checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
   //validatorHandler(createVideoDto, 'body'),
+  validatorHandler(getPostDto, 'params'),
   uploadMiddleware.single('file'),
   async (req, res, next) => {
     try {
@@ -86,7 +89,7 @@ router.post(
 
       res.json({
         success: true, //Validaciones FrontEnd
-        message: `Image created successfully - ${file['filename']}`, //Mostrar al usuario
+        message: `Video created successfully - ${file['filename']}`, //Mostrar al usuario
         data: fileData, //Desplegar información en algún formato
       });
     } catch (error) {
@@ -108,7 +111,7 @@ router.patch(
       const { old, changed } = await service.update(idVideo, body);
       res.json({
         success: true,
-        message: 'video updated successfully',
+        message: 'Video updated successfully',
         url: `${PUBLIC_URL}/${changed.file_name}`,
         Original: old,
         Updated: changed,
@@ -130,7 +133,7 @@ router.delete(
       videos = await service.delete(idVideo);
       res.json({
         success: true,
-        message: 'photos eliminated successfully',
+        message: 'Video eliminated successfully',
         comment: videos,
       });
     } catch (error) {

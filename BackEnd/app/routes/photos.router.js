@@ -9,6 +9,8 @@ const {
   getPhotoDto,
 } = require('../DTOs/photos.dto');
 
+const { getPostDto } = require('../DTOs/post.dto');
+
 const checkRolHandler = require('../middlewares/checkRol.handler');
 const authHandler = require('../middlewares/auth.handler');
 const { uploadMiddleware } = require('../utils/storage.handler');
@@ -63,6 +65,7 @@ router.post(
   authHandler,
   checkRolHandler(['Alumno', 'Maestro', 'Administrador']),
   //validatorHandler(createPhotoDto, 'body'),
+  validatorHandler(getPostDto, 'params'),
   uploadMiddleware.single('file'),
   async (req, res, next) => {
     try {

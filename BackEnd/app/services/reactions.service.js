@@ -25,7 +25,7 @@ class CommentsService {
     });
 
     if (existsReaction) {
-      throw boom.notFound(
+      throw boom.unauthorized(
         'There already exists a reaction for this user on this post'
       );
     }
@@ -125,6 +125,14 @@ class CommentsService {
 
     if (deletedCount <= 0)
       throw new boom.notFound(REACTION_NOT_FOUND_MSG + reactionId);
+
+    const reactionPost = await PostModel.findOne({
+      _id: reaction.post,
+    });
+
+    reactionPost.Likes = reactionPost.Likes - 1;
+
+    reactionPost.save();
 
     return reaction;
   }
