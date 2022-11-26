@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { New } from '../components/New';
-import { Col, Container, Row } from 'reactstrap';
-import { Routes } from 'react-router-dom';
 
 export class NewsList extends Component {
     constructor(props) {

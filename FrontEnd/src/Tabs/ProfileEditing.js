@@ -1,9 +1,9 @@
 import React from "react";
 import '../css/editarPerfil.css'
-import ProfilePic from '../resources/perfil1.jpg'
+import ProfilePic from '../resources/logo2.png'
 import { MdAddPhotoAlternate } from 'react-icons/md'
 
-export const ProfileEdit = ({ setActive }) => {
+export const ProfileEdit = ({ setActive, data }) => {
 
     const SaveInfo = () => {
         setActive('View')

@@ -1,6 +1,5 @@
 import Orchestra from '../resources/Orchestra.jpg';
 import { EventsList } from '../Lists/Events';
-import { Event } from './Event';
 
 const ListOfEvents = (<EventsList Events={[
     {

@@ -1,6 +1,6 @@
 import '../css/App.css';
 import React from 'react';
-import { BrowserRouter as Router, Route, RouterProvider, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MainPage from '../pages/MainPage';
 import UanlPage from '../pages/Uanl';
 import FcfmPage from '../pages/Fcfm';

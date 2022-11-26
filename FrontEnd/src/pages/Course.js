@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CarouselFade from "../components/Carousell";
 import UpperMenu from "../components/Menu";
 import { Footer } from "../components/Footer";
 import { ThreadsList } from "../Lists/Threads";
 import Profile from '../resources/perfil1.jpg';
 import '../css/materia.css';
+import Cookies from "universal-cookie";
+import api from "../api.json"
+import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 const ListOfThreads = (<ThreadsList Threads={[
     {
@@ -22,24 +26,51 @@ const ListOfThreads = (<ThreadsList Threads={[
 ]} />)
 
 export const CoursePage = () => {
+
+    const [auth, IsAuthorized] = useState(false)
+
+    const url = api.link;
+
+    useEffect(() => {
+        onLoad();
+    })
+
+    async function onLoad() {
+
+        const cookies = new Cookies();
+
+        const config = {
+            headers: { 'Authorization': `Bearer ${cookies.get("userToken")}` }
+        }
+
+        await axios.get(url + 'users/' + cookies.get("userId"), config).then(response => {
+
+            IsAuthorized(true)
+
+        }).catch(error => {
+
+        })
+
+    }
+
     return (
         <div className='MainPage'>
-            <UpperMenu />
-            <div className="HeadCarousel">
-                <div className='CarouselMessage'>
-                    <span>Materia</span>
+            {auth ? <div><UpperMenu />
+                <div className="HeadCarousel">
+                    <div className='CarouselMessage'>
+                        <span>Materia</span>
+                    </div>
+                    <CarouselFade />
                 </div>
-                <CarouselFade />
-            </div>
-            <div className='BodyContent'>
-                <div className='BodyHeader'>
-                    <span>Materia</span>
+                <div className='BodyContent'>
+                    <div className='BodyHeader'>
+                        <span>Materia</span>
+                    </div>
+                    <div className="ThreadsHolder">
+                        {ListOfThreads}
+                    </div>
                 </div>
-                <div className="ThreadsHolder">
-                    {ListOfThreads}
-                </div>
-            </div>
-            <Footer />
+                <Footer /></div> : <Navigate to={"/login"} replace={true} />}
         </div>
     )
 }

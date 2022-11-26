@@ -22,7 +22,7 @@ export const SelectionBoxObject = ({ headName, placeholder, list }) => {
     )
 }
 
-export const SelectionBoxSingle = ({ headName, placeholder, list }) => {
+export const SelectionBoxSingle = ({ name, headName, placeholder, list, prevValue, Handler }) => {
 
     return (
 
@@ -31,14 +31,15 @@ export const SelectionBoxSingle = ({ headName, placeholder, list }) => {
                 <div className="form-outline">
                     <label className="form-label">{headName}</label>
                     <br />
-                    <select className="form-select" aria-label="Default select example" name="group_teacher" defaultValue="0" placeholder={placeholder}>
+                    <select name={name ? name : null} className="form-select" aria-label="Default select example" value={prevValue} onChange={Handler ? Handler : null} >
                         <option value="0" disabled={true}>{placeholder}</option>
                         {list.map(x => (
                             <option key={x} value={x}>{x}</option>
                         ))}
                     </select>
-                </div> : null}
-        </div>
+                </div > : null
+            }
+        </div >
     )
 }
 

@@ -21,21 +21,21 @@ const InputContainer = styled.div`
     }
 `
 
-export const TextInput = ({ headName, placeholder, width }) => {
+export const TextInput = ({ headName, placeholder, width, name, Handler, type, prevValue }) => {
     return (
         <InputContainer width={width} className="col">
             <label className="form-label">{headName}</label>
             <br />
-            <input className="styledInput" type="text" placeholder={placeholder} autoComplete="false" />
+            <input className="styledInput" type={type ? type : "text"} value={prevValue ? prevValue : ""} placeholder={placeholder} autoComplete="false" onChange={Handler ? Handler : null} name={name ? name : ""} />
         </InputContainer>
     )
 }
 
-export const TextAreaInput = ({ headName, placeholder, width, height }) => {
+export const TextAreaInput = ({ headName, placeholder, width, height, prevValue }) => {
     return (
         <InputContainer className="col" width={width} height={height}>
             {headName ? <div><label className="form-label">{headName}</label><br /></div> : null}
-            <textarea className="styledInput" type="text" placeholder={placeholder} autoComplete="false" />
+            <textarea value={prevValue ? prevValue : ""} className="styledInput" type="text" placeholder={placeholder} autoComplete="false" />
         </InputContainer>
     )
 }

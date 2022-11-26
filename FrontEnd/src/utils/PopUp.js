@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React, { forwardRef, useImperativeHandle, useState } from "react";
+import styled, { keyframes } from "styled-components";
 
 const PopUpContent = styled.div`
 display: flex;
@@ -41,10 +41,43 @@ const PopUpBottom = styled(PopUpButton)`
     margin: 10px;
 `;
 
-export const PopUpForm = ({ children, Header, activate }) => {
+const AlertAnimation = keyframes`
+    0%{
+        transform: translateY(150%)
+    }
+
+    50% {
+        transform: translateY(0%)
+    }
+
+    100% {
+        transform: translateY(150%)
+    }
+`
+
+const AlertMessage = styled.div`
+    background-color: ${props => props.messageColor};
+    padding: 1em;
+    border-radius: 12px;
+    color: white;
+    position: fixed;
+    z-index: 99;
+    transform: translateY(calc(150% + 2vh));
+    left: 2vw;
+    bottom: 2vh;
+    animation-name:${AlertAnimation};
+    animation-timing-function: ease;
+    animation-duration: 5s;
+`
+
+export const PopUpForm = ({ children, Header, activate, action, acceptButton }) => {
 
     const HandleActive = () => {
         activate(false)
+    }
+
+    const HandleAction = () => {
+        action()
     }
 
     return (
@@ -58,7 +91,7 @@ export const PopUpForm = ({ children, Header, activate }) => {
                     </div>
                     {children}
                     <div>
-                        <PopUpBottom type="button" className="btn btn-outline-light">Crear</PopUpBottom>
+                        <PopUpBottom type="button" className="btn btn-outline-light" action={HandleAction}>{acceptButton}</PopUpBottom>
                         <PopUpBottom action={HandleActive} type="button" className="btn btn-outline-info">Cancelar</PopUpBottom>
                     </div>
                 </div>
@@ -66,3 +99,29 @@ export const PopUpForm = ({ children, Header, activate }) => {
         </PopUpBackGround>
     )
 }
+
+export const PopUpMessage = forwardRef((props, ref) => {
+
+    const [popUp, setActive] = useState(false)
+
+    useImperativeHandle(ref, () => ({
+
+        activeAnimation(color, info) {
+            setActive({ draw: true, status: color, message: info })
+        }
+
+    }))
+
+    const stopAnimation = () => {
+        setActive(false)
+    }
+
+    return (
+        <div>
+            {popUp.draw ? <AlertMessage messageColor={popUp.status} onAnimationEnd={stopAnimation}>
+                {popUp.message}
+            </AlertMessage> : null}
+        </div>
+    )
+
+})

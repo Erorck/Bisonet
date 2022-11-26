@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import { FragmentButton } from "../components/FragmentButton";
 import { FragmentContent } from "../components/FragmentContent";
 import { LatestNews } from '../components/LatestNews';

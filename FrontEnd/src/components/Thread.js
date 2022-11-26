@@ -19,10 +19,6 @@ export const Thread = ({ Body, Date, Owner, Image }) => {
         showCommentArea(true)
     }
 
-    const LostFocus = () => {
-
-    }
-
     return (
         <div className="ThreadCard">
             <div className="ThreadHead">

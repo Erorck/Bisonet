@@ -1,9 +1,9 @@
 import React from "react";
-import ProfilePic from '../resources/perfil1.jpg';
+import ProfilePic from '../resources/logo2.png';
 import '../css/perfil.css'
 import { FaRegEdit } from 'react-icons/fa';
 
-export const ProfileInfo = ({ setActive }) => {
+export const ProfileInfo = ({ setActive, data }) => {
 
     const EditProfile = () => {
         setActive('Edit')
@@ -20,8 +20,8 @@ export const ProfileInfo = ({ setActive }) => {
                                 <div className="col-md-4 gradient-custom text-center text-white">
                                     <img src={ProfilePic}
                                         alt="Avatar" className="img-fluid my-5 ProfilePhoto" />
-                                    <h5 className="ProfileHeader">John Doe</h5>
-                                    <p className="ProfileParagraph">Estudiante</p>
+                                    <h5 className="ProfileHeader">{data.first_name}</h5>
+                                    <p className="ProfileParagraph">{data.user_type[data.user_type.length - 1]}</p>
                                     <button className='EditProfileBtn' onClick={EditProfile} ><FaRegEdit /></button>
                                 </div>
                                 <div className="col-md-8">
@@ -31,11 +31,11 @@ export const ProfileInfo = ({ setActive }) => {
                                         <div className="row pt-1">
                                             <div className="col-6 mb-3">
                                                 <h5 className="ProfileHeader">Correo</h5>
-                                                <p className="ProfileParagraph">info@example.com</p>
+                                                <p className="ProfileParagraph">{data.institutional_email}</p>
                                             </div>
                                             <div className="col-6 mb-3">
-                                                <h5 className="ProfileHeader">Carrera</h5>
-                                                <p className="ProfileParagraph">LMAD</p>
+                                                <h5 className="ProfileHeader">Especialidad</h5>
+                                                <p className="ProfileParagraph">{data.career_especialty[0]}</p>
                                             </div>
                                         </div>
                                     </div>

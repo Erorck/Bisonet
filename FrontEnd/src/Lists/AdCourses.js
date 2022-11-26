@@ -1,5 +1,6 @@
 import React from "react";
 import { CourseCard } from "../components/CoursesCard";
+import Coding from '../resources/coding.jpeg';
 
 export class AdCoursesList extends React.Component {
     constructor(props) {
@@ -10,10 +11,13 @@ export class AdCoursesList extends React.Component {
     }
 
     render() {
-        var courses = this.state.Courses || [];
+        var courses = this.state.Courses[0] || [];
+
+        console.log(this.state.Courses[0])
+
         return (
             courses.map((x, i) => (
-                <CourseCard key={i} Image={x.Image} Title={x.Title} Cycle={x.Cycle} />
+                <CourseCard key={i} Image={Coding} Title={x.course_name} Cycle={x.semester} id={x._id} especialty={x.career_especialty} />
             ))
         )
     }

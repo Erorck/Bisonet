@@ -39,7 +39,7 @@ function AdminMenu() {
                 <div>
                     <button onClick={() => {
                         navigate("/login")
-                    }}>Iniciar Sesión</button>
+                    }}>Cerrar sesión</button>
                 </div>
             </div>
         </div>
