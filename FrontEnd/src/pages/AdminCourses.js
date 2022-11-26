@@ -98,7 +98,7 @@ export const CoursesPage = () => {
             {auth ? <div>
                 <AdminMenu />
                 <div className="BodyContent">
-                    {Active ? <CoursesPopUp activePopUp={activePopUp}></CoursesPopUp> : null}
+                    {Active ? <CoursesPopUp activePopUp={activePopUp} prevInfo={{ course_name: "", semester: "", career_especialty: "" }} id={""}></CoursesPopUp> : null}
                     <div className="BodyHeader">
                         <span>Materias</span>
                     </div>

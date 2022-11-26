@@ -43,19 +43,20 @@ export const CoursesPopUp = ({ activePopUp, mode, prevInfo, id }) => {
     }
 
     const SendCreateRequest = async () => {
+
         const cookies = new Cookies();
 
         const config = {
             headers: { 'Authorization': `Bearer ${cookies.get("userToken")}` }
         }
 
-        await axios.patch(url + 'courses/' + objectID, form, config).then(response => {
+        await axios.post(url + 'courses/', form, config).then(response => {
 
-            childRef.current.activeAnimation("green", response.data.message)
+            console.log(response.data)
 
         }).catch(error => {
 
-            childRef.current.activeAnimation("red", error.response)
+            console.log(error.response)
 
         })
     }

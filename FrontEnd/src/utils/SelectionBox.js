@@ -31,7 +31,7 @@ export const SelectionBoxSingle = ({ name, headName, placeholder, list, prevValu
                 <div className="form-outline">
                     <label className="form-label">{headName}</label>
                     <br />
-                    <select name={name ? name : null} className="form-select" aria-label="Default select example" value={prevValue} onChange={Handler ? Handler : null} >
+                    <select name={name ? name : null} className="form-select" aria-label="Default select example" value={prevValue ? prevValue : undefined} onChange={Handler ? Handler : null} >
                         <option value="0" disabled={true}>{placeholder}</option>
                         {list.map(x => (
                             <option key={x} value={x}>{x}</option>
