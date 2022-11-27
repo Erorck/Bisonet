@@ -211,6 +211,29 @@ class GroupsService {
       ? groups.filter((item, index) => item && index < limit)
       : groups;
 
+    groups.forEach(async function (element) {
+      const groupCourse = await CourseModel.findOne({
+        _id: element.course,
+      });
+
+      const groupTeacher = await UserModel.findOne({
+        _id: element.group_teacher,
+      });
+
+      const teacher_name =
+        groupTeacher.first_name +
+        ' ' +
+        groupTeacher.first_last_name +
+        ' ' +
+        groupTeacher.second_last_name;
+
+      element = {
+        ...element,
+        teacher_name: teacher_name,
+        course_name: groupCourse.course_name,
+      };
+    });
+
     return groups;
   }
 
