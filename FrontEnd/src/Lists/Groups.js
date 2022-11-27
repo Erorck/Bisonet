@@ -14,7 +14,7 @@ export class GroupsList extends React.Component {
         var groups = this.state.Groups;
         return (
             groups.map((x, i) => (
-                <GroupCard key={i} Cycle={x.Cycle} Name={x.Name} Group={x.Group} Teacher={x.Teacher} activePopUp={this.state.Changer} />
+                <GroupCard key={i} Cycle={x.semester} Name={x.course} Group={x.year} Teacher={x.group_teacher} activePopUp={this.state.Changer} id={x._id} />
             ))
         )
     }

@@ -81,7 +81,15 @@ export const CoursesPage = () => {
 
         await axios.get(url + 'courses/', config).then(response => {
 
-            HandleCourses(response.data.data)
+            var CourseFinal = [];
+            for (let i = 0; i < response.data.data.length; i++) {
+                if(response.data.data[i].isActive)
+                {
+                    CourseFinal.push(response.data.data[i]);
+                }
+            }
+
+            HandleCourses(CourseFinal)
 
         }).catch(error => {
             console.log(error.response)

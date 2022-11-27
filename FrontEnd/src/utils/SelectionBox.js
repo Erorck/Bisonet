@@ -2,8 +2,7 @@ import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
 
-export const SelectionBoxObject = ({ headName, placeholder, list }) => {
-
+export const SelectionBoxObject = ({ name, headName, placeholder, list, prevValue, Handler }) => {
     return (
 
         <div className="col">
@@ -11,8 +10,8 @@ export const SelectionBoxObject = ({ headName, placeholder, list }) => {
                 <div className="form-outline">
                     <label className="form-label">{headName}</label>
                     <br />
-                    <select className="form-select" aria-label="Default select example" name="group_teacher" defaultValue="0" placeholder={placeholder}>
-                        <option value="0" disabled={true}>{placeholder}</option>
+                    <select className="form-select" aria-label="Default select example" name={name ? name : null}  placeholder={placeholder} value={prevValue ? prevValue : undefined} onChange={Handler ? Handler : null} defaultValue="0">
+                        <option value="0" disabled={true} selected="selected">{placeholder}</option>
                         {list.map(x => (
                             <option key={x.id} value={x.id}>{x.name}</option>
                         ))}
@@ -31,8 +30,8 @@ export const SelectionBoxSingle = ({ name, headName, placeholder, list, prevValu
                 <div className="form-outline">
                     <label className="form-label">{headName}</label>
                     <br />
-                    <select name={name ? name : null} className="form-select" aria-label="Default select example" value={prevValue ? prevValue : undefined} onChange={Handler ? Handler : null} >
-                        <option value="0" disabled={true}>{placeholder}</option>
+                    <select name={name ? name : null} className="form-select" aria-label="Default select example" value={prevValue ? prevValue : undefined} onChange={Handler ? Handler : null} defaultValue="0">
+                        <option value="0" disabled={true} selected="selected">{placeholder}</option>
                         {list.map(x => (
                             <option key={x} value={x}>{x}</option>
                         ))}
@@ -80,7 +79,7 @@ const ListInput = styled.input`
     appearance: none;
 `
 
-export const SearchObjectSelection = ({ headName, list }) => {
+export const SearchObjectSelection = ({ headName, list, onclickHandler}) => {
 
     const ListedItems = list;
 
@@ -95,14 +94,14 @@ export const SearchObjectSelection = ({ headName, list }) => {
                 {ListedItems.filter(x =>
                     x.name.toLowerCase().includes(filter.toLowerCase())
                 ).map((FilterItem) => (
-                    <ObjectListItem key={FilterItem.id} name={FilterItem.name} id={FilterItem.id}></ObjectListItem>
+                    <ObjectListItem key={FilterItem.id} name={FilterItem.name} id={FilterItem.id} onClick={onclickHandler}></ObjectListItem>
                 ))}
             </ListContainer>
         </div >
     )
 }
 
-const ObjectListItem = ({ name, id }) => {
+const ObjectListItem = ({ name, id, onClick }) => {
     const [hover, setHover] = useState(false)
 
     function HandleMouseEnter() {
@@ -112,7 +111,12 @@ const ObjectListItem = ({ name, id }) => {
         setHover(false)
     }
 
+    function HandleOnclick()
+    {
+        onClick(id);
+    }
+
     return (
-        <ListItem hover={hover} onMouseEnter={HandleMouseEnter} onMouseLeave={HandleMouseLeave}> {name} {id}</ListItem>
+        <ListItem hover={hover} onMouseEnter={HandleMouseEnter} onMouseLeave={HandleMouseLeave} onClick={HandleOnclick}> {name} {id}</ListItem>
     )
 }

@@ -100,6 +100,35 @@ export const PopUpForm = ({ children, Header, activate, action, acceptButton }) 
     )
 }
 
+export const PopUpForm2 = ({ children, Header, activate, action, acceptButton }) => {
+
+    const HandleActive = () => {
+        activate(false)
+    }
+
+    const HandleAction = () => {
+        action()
+    }
+
+    return (
+        <PopUpBackGround>
+            <PopUpContent>
+                <div className="alta">
+                    <div className="d-flex flex-row align-items-center justify-content-center">
+                        <PopUpHeader>{Header}</PopUpHeader>
+                    </div>
+                    <div className="divider d-flex align-items-center my-4">
+                    </div>
+                    {children}
+                    <div>
+                        <PopUpBottom action={HandleActive} type="button" className="btn btn-outline-info">Cancelar</PopUpBottom>
+                    </div>
+                </div>
+            </PopUpContent>
+        </PopUpBackGround>
+    )
+}
+
 export const PopUpMessage = forwardRef((props, ref) => {
 
     const [popUp, setActive] = useState(false)
