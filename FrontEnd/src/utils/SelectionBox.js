@@ -10,7 +10,7 @@ export const SelectionBoxObject = ({ name, headName, placeholder, list, prevValu
                 <div className="form-outline">
                     <label className="form-label">{headName}</label>
                     <br />
-                    <select className="form-select" aria-label="Default select example" name={name ? name : null}  placeholder={placeholder} value={prevValue ? prevValue : undefined} onChange={Handler ? Handler : null} defaultValue="0">
+                    <select className="form-select" aria-label="Default select example" name={name ? name : null} placeholder={placeholder} value={prevValue ? prevValue : undefined} onChange={Handler ? Handler : null} defaultValue="0">
                         <option value="0" disabled={true} selected="selected">{placeholder}</option>
                         {list.map(x => (
                             <option key={x.id} value={x.id}>{x.name}</option>
@@ -79,7 +79,7 @@ const ListInput = styled.input`
     appearance: none;
 `
 
-export const SearchObjectSelection = ({ headName, list, onclickHandler}) => {
+export const SearchObjectSelection = ({ headName, list, onclickHandler }) => {
 
     const ListedItems = list;
 
@@ -111,8 +111,7 @@ const ObjectListItem = ({ name, id, onClick }) => {
         setHover(false)
     }
 
-    function HandleOnclick()
-    {
+    function HandleOnclick() {
         onClick(id);
     }
 

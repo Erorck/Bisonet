@@ -13,7 +13,7 @@ export class PostList extends React.Component {
         var post = this.state.Posts || [];
         return (
             post.map((x, i) => (
-                <PostCard key={i} PublishDate={x.Date} Image={x.Image} Title={x.Title} Description={x.Description} />
+                <PostCard key={i} PublishDate={x.Date} Image={x.Image} Title={x.Title} Description={x.Description} InnerContent={x} />
             ))
         )
     }

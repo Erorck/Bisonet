@@ -37,7 +37,7 @@ export const CoursesPopUp = ({ activePopUp, mode, prevInfo, id }) => {
 
         }).catch(error => {
 
-            childRef.current.activeAnimation("red", error.response)
+            childRef.current.activeAnimation("red", error.response.data.message)
 
         })
     }

@@ -31,11 +31,11 @@ export const TextInput = ({ headName, placeholder, width, name, Handler, type, p
     )
 }
 
-export const TextAreaInput = ({ headName, placeholder, width, height, prevValue }) => {
+export const TextAreaInput = ({ name, headName, placeholder, width, height, prevValue, Handler }) => {
     return (
         <InputContainer className="col" width={width} height={height}>
             {headName ? <div><label className="form-label">{headName}</label><br /></div> : null}
-            <textarea value={prevValue ? prevValue : ""} className="styledInput" type="text" placeholder={placeholder} autoComplete="false" />
+            <textarea name={name ? name : undefined} value={prevValue ? prevValue : ""} className="styledInput" type="text" placeholder={placeholder} autoComplete="false" onChange={Handler ? Handler : null} />
         </InputContainer>
     )
 }

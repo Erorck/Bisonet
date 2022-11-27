@@ -45,7 +45,7 @@ export const PostsPage = () => {
 
     useEffect(() => {
         onLoad();
-    })
+    }, [])
 
     async function onLoad() {
 
@@ -80,7 +80,7 @@ export const PostsPage = () => {
             {auth ? <div>
                 <AdminMenu />
                 <div className="BodyContent">
-                    {Active ? <PostPopUp activePopUp={activePopUp}></PostPopUp> : null}
+                    {Active ? <PostPopUp activePopUp={activePopUp} prevInfo={{ Autor: "", Seccion: "", Type: "", Group: "", Title: "", Content: "" }}></PostPopUp> : null}
                     <div className="BodyHeader">
                         <span>Publicaciones</span>
                     </div>

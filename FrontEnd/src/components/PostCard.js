@@ -6,7 +6,7 @@ const PostCardButton = styled.button`
     margin: 0 10px;
 `
 
-export const PostCard = ({ PublishDate, Image, Title, Description }) => {
+export const PostCard = ({ PublishDate, Image, Title, Description, InnerContent }) => {
 
     const [Active, activePopUp] = useState(false)
 
@@ -16,7 +16,7 @@ export const PostCard = ({ PublishDate, Image, Title, Description }) => {
 
     return (
         <div className="post vt-post">
-            {Active ? <PostPopUp activePopUp={activePopUp} mode={"edit"}></PostPopUp> : null}
+            {Active ? <PostPopUp activePopUp={activePopUp} mode={"edit"} prevInfo={{ Autor: InnerContent.Autor, Seccion: InnerContent.Seccion, Type: InnerContent.Type, Group: InnerContent.Group, Title: InnerContent.Title, Content: InnerContent.Content }}></PostPopUp> : null}
             <div className="row">
                 <div className="col-xs-12 col-sm-5 col-md-5 col-lg-4">
                     <div className="post-type post-img">
