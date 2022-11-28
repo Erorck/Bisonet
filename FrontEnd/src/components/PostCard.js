@@ -49,14 +49,10 @@ export const PostCard = ({
           activePopUp={activePopUp}
           mode={"edit"}
           prevInfo={{
-            Autor: InnerContent.Autor,
-            id: id,
-            Seccion: InnerContent.Seccion,
-            Type: InnerContent.Type,
-            Group: InnerContent.Group,
             Title: InnerContent.Title,
             Content: InnerContent.Content,
           }}
+          id={id}
         ></PostPopUp>
       ) : null}
       <div className="row">

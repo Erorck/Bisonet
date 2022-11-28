@@ -119,20 +119,16 @@ export const PostPopUp = ({ activePopUp, mode, prevInfo, id }) => {
       headers: { Authorization: `Bearer ${cookies.get("userToken")}` },
     };
 
-    const { data } = form;
-
-    //const updateData = { Title: data.Title, Content: data.Content };
-
     await axios
-      .patch(url + "/post/update/" + objectID, data, config)
+      .patch(url + "/post/update/" + objectID, form, config)
       .then((response) => {
         console.log(response.data);
       })
       .catch((error) => {
         console.log(error.response.data);
-        console.log(data);
+        console.log(form);
       });
-    console.log(data);
+    console.log(form);
     console.log(objectID);
   };
 
